@@ -2,6 +2,8 @@
 const express = require('express')
 const router = express.Router()
 
+const loginFrontEndMiddleware = require('../../middleware/login_frontend')
+
 const HomeController = require(`${__path_controllers}frontend/home_controller`)
 
  
@@ -51,7 +53,11 @@ router
     
 router
     .route('/thanh-toan')
-    .get(HomeController.CheckOut) 
+    .get(loginFrontEndMiddleware, HomeController.CheckOut) 
+
+router
+    .route('/don-hang(/:action)?')
+    .get(loginFrontEndMiddleware, HomeController.Invoice)
 
 router
     .route('/contact')

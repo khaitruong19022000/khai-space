@@ -1,6 +1,6 @@
 <%
     const folderUpload = 'uploads/items/'
-    const linkPrefix   = '/blog'
+    const linkPrefix   = 'admin/donHang/'
 %>
 
 <% include ./../helper/pagination.ejs %>
@@ -46,7 +46,8 @@
                 <div class="row col-mb-30">
                     <div class="col-lg-6">
                         <h4>Địa Chỉ Nhận Hàng</h4>
-                        <form class="row">
+                        <span class="form-message" style = "color: red;"></span>
+                        <form class="row" action= <%= linkPrefix + 'add'%> method="POST" name="donhang">
                             <div class="col-8 form-group">
                                 <b><input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Họ Tên" value="<%= userInfo.hoten%>" required/></b>
                             </div>
@@ -69,13 +70,25 @@
                                 </select>
                             </div>
 
+                            <div class="col-12 form-group">
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm">
+                                    <option value="0" selected>Chọn hình thức thanh toán</option>
+                                    <option value="1" >Thanh toán khi nhận hàng</option>
+                                    <option value="2" >Chuyển khoản ngân hàng</option>
+                                </select>
+                            </div>
+
                             <div class="col-8 form-group">
-                                <input type="text" class="sm-form-control" placeholder="Lời nhắn cho người bán" />
+                                <input type="text" name="ghichu" class="sm-form-control" placeholder="Lời nhắn cho người bán" />
                             </div>
 
                             <div class="col-4 form-group">
                                 <input type="text" class="sm-form-control" placeholder="Mã Giảm Giá" />
                             </div>
+
+                            <input type="text" name="sanpham" hidden/>
+                            <input type="text" name="tongthanhtoan" hidden/>
+                            <input type="text" name="diachi" hidden/>
 
                             <div class="col-12 form-group">
                                 <button class="button button-3d m-0 button-black">Thanh Toán</button>

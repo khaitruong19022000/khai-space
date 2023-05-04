@@ -11,13 +11,14 @@ router.use((req, res, next) => {
 router.use('/authen',require('./authen'))
 router.use('/no-permission',require('./no_permission'))
 
-router.use('/',loginMiddleware ,require('./dashboard'))
+router.use('/', require('./dashboard'))
 
 router.use('/rss',require('./rss'))
 router.use('/account',require('./account'))
 router.use('/setting',require('./setting'))
 router.use('/phiVanChuyen',require('./phiVanChuyen'))
 router.use('/maGiamGia',require('./maGiamGia'))
+router.use('/donHang',require('./donHang'))
 router.use('/menu',require('./menu'))
 router.use('/category',require('./category'))
 router.use('/category_product',require('./category_product'))

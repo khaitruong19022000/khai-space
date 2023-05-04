@@ -16,14 +16,14 @@
                     </a>
                 </div><!-- #logo end -->
 
-                <div class="header-misc col-auto col-lg-3 order-3 justify-content-lg-end ms-0 ms-sm-3 px-0">
+                <div class="header-misc col-auto col-lg-4 order-3 justify-content-lg-end ms-0 ms-sm-3 px-0">
                     <!-- Top Login
                     ============================================= -->
                     <% if(userInfo._id === undefined) { %>
                     <div id="top-account">
                         <a href="/dang-nhap" >
-                            <i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i>
-                            <span class="d-none d-sm-inline-block font-primary fw-medium">Login</span>
+                            <i class="icon-line2-login me-1 position-relative" style="top: 1px;"></i>
+                            <span class="d-none d-sm-inline-block font-primary fw-medium">Đăng Nhập</span>
                         </a>
                     </div>
                     <% } else { %>
@@ -36,10 +36,23 @@
                             </div>
                         <% } %>
                             <div id="top-account">
-                                <a href="/admin/authen/logout" >
-                                    <i class="icon-line2-logout me-1 position-relative" style="top: 1px;"></i>
-                                    <span class="d-none d-sm-inline-block font-primary fw-medium">Logout</span>
-                                </a>
+                                <nav class="primary-menu with-arrows order-lg-1 order-last px-0">
+                                    <ul class="menu-container">
+                                        <li class="menu-item current">
+                                            <a class="menu-link" href="demo-furniture.html">
+                                                <div><i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i>Tài Khoản</div>
+                                            </a>
+                                            <ul class="sub-menu-container">
+                                                <li class="menu-item">
+                                                    <a class="menu-link" href="/don-hang"><div>Đơn Hàng</div></a>
+                                                </li>
+                                                <li class="menu-item">
+                                                    <a class="menu-link" href="/admin/authen/logout"><div>Đăng Xuất</div></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                     <% } %>
                     <!-- #top-login end -->

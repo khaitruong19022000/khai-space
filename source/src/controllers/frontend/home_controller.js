@@ -276,7 +276,42 @@ module.exports = {
 
     CheckOut: async (req , res , next) => {
         res.render('frontend/page/check_out',{
+        }) 
+    },
 
+    Invoice: async (req , res , next) => {
+        let condition = {}
+        let action            = await paramsHelpers.getParam(req.params, 'action', '')
+
+        condition.idUserName = req.user._id.toString()
+        if(action !== '') {
+            condition.status = action
+        }
+
+        let { data }          = await HomeService.Invoice(condition)
+        let donhang = []
+        for (let i = 0; i < data.length; i++) {
+            let sanpham = []
+            let tongtien = 0
+            for (let j = 0; j < data[i].sanpham.length; j++) {
+                let item = JSON.parse(data[i].sanpham[j])
+                let id = item.id
+                let sumOneProduct = Number(item.price) * item.sl
+                tongtien += sumOneProduct
+                let { data_product_detail } =   await HomeService.findOneProduct({id})
+                item.avatar = data_product_detail.avatar[0]
+                item.name   = data_product_detail.name
+                item.sumOneProduct = sumOneProduct
+                sanpham.push(item)
+            }
+            let oneDonHang = {}
+            oneDonHang.sanpham = sanpham
+            oneDonHang.tongtien = tongtien
+            donhang.push(oneDonHang)
+        }
+
+        res.render('frontend/page/invoice',{
+            donhang
         }) 
     },
 

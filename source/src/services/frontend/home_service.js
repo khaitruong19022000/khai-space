@@ -5,8 +5,7 @@ const ArticleModel = require(`${__path_models}article_model`)
 const CategoryModel = require(`${__path_models}category_model`)
 const CategoryProductModel = require(`${__path_models}category_product_model`)
 const ProductModel = require(`${__path_models}product_model`)
-
-const paramsHelpers = require(`${__path_helpers}params`)
+const DonHangModel = require(`${__path_models}donHang_model`)
 
 module.exports = {
 //--- pageHomeStart ---
@@ -142,4 +141,12 @@ module.exports = {
             data_product_group,
         }
     },
+
+    Invoice: async (obj) => {
+        let data = await DonHangModel.find(obj)
+
+        return {
+            data
+        }
+    }
 }

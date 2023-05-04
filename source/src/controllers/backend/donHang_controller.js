@@ -1,16 +1,17 @@
-const routerName = 'category_account';
+const routerName = 'donHang';
 const renderName = `backend/page/${routerName}/`;
 
-const linkPrefix = `/admin/category_account/`
+const linkPrefix = `/admin/donHang/`
 
 const util = require('util')
 
 const paramsHelpers = require(`${__path_helpers}params`)
 const notify  		= require(`${__path_configs}notify`)
 const SlugHelpers   = require(`${__path_helpers}slug`)
+const nodemailerDonHangHelpers   = require(`${__path_helpers}nodemailer_donhang`)
 const {validationResult} = require('express-validator')
 
-const CategoryAccountService = require(`${__path_services}backend/category_account_service`);
+const donHangService = require(`${__path_services}backend/donHang_service`);
 
 module.exports = {
     getlist : async (req , res , next) => {
@@ -36,12 +37,12 @@ module.exports = {
             condition = {status: currentStatus, name: {$regex: keyword, $options: 'i'}}
         }
 
-        let { data }  = await CategoryAccountService.getAll({pagination, condition, sort})
+        let { data }  = await donHangService.getAll({pagination, condition, sort})
 
         let choosedStatus = req.params.status;
-        let statusFilter = await CategoryAccountService.countAll({choosedStatus})
+        let statusFilter = await donHangService.countAll({choosedStatus})
 
-        let pageTitle = 'Category Account'
+        let pageTitle = 'Đơn Hàng'
  
         res.render(`${renderName}list` , {
             items :        data,
@@ -58,7 +59,7 @@ module.exports = {
     getForm : async (req , res , next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
 
-        let { pageTitle, data } = await CategoryAccountService.getForm({id})
+        let { pageTitle, data } = await donHangService.getForm({id})
 
         res.render(`${renderName}form` , {
             pageTitle,
@@ -78,7 +79,7 @@ module.exports = {
         let currentStatus = paramsHelpers.getParam(req.params, 'status', 'active')
         let status        = (currentStatus === 'active') ? 'inactive' : 'active'
 
-        let data = await CategoryAccountService.changeStatus({id, status})
+        let data = await donHangService.changeStatus({id, status})
         data.status        = status
         data.id            = id
         data.currentStatus = currentStatus
@@ -107,7 +108,7 @@ module.exports = {
             data.discount = number
         }
 
-        let {success} = await CategoryAccountService.changeNumber({id, data})
+        let {success} = await donHangService.changeNumber({id, data})
 
         res.send({
             success,
@@ -120,7 +121,7 @@ module.exports = {
     deleteItem: async (req , res , next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
 
-        await CategoryAccountService.deleteItem({id})
+        await donHangService.deleteItem({id})
 
         req.flash('warning', notify.DELETE_SUCCESS, false)           
         res.redirect(`${linkPrefix}`)
@@ -134,11 +135,11 @@ module.exports = {
         item.slug = slug
 
         if(typeof item !== 'undefined' && item.id !== ""){ //edit
-            CategoryAccountService.editItem(item)
+            donHangService.editItem(item)
             req.flash('success', notify.EDIT_SUCCESS, false) 
             res.redirect(`${linkPrefix}`)
         }else{ // add
-            CategoryAccountService.addItem(item)
+            donHangService.addItem(item)
             req.flash('success', notify.ADD_SUCCESS, false) 
             res.redirect(`${linkPrefix}`)
         }
@@ -149,15 +150,30 @@ module.exports = {
         let arrId  = req.body.cid
 
         if (action === 'delete') {
-            let { deletedCount } = await CategoryAccountService.ChangeDeleteMultiple({arrId})
+            let { deletedCount } = await donHangService.ChangeDeleteMultiple({arrId})
             req.flash('success', util.format(notify.DELETE_MULTI_SUCCESS, deletedCount), false) 
             res.redirect(`${linkPrefix}`)
         }else{
-            let { modifiedCount } = await CategoryAccountService.ChangeStatusMultiple({arrId, action})
+            let { modifiedCount } = await donHangService.ChangeStatusMultiple({arrId, action})
             req.flash('success', util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, modifiedCount), false) 
             res.redirect(`${linkPrefix}`)
         }
 
     },
+
+    getAddDonHang: async (req, res, next) => {
+        let item = {}
+        item.idUserName = req.user._id
+        item.diaChi     = req.body.diachi
+        item.sdt        = req.user.phone
+        item.sanpham    = JSON.parse(req.body.sanpham)
+        item.ghiChu     = req.body.ghichu
+        item.NgayDat    = Date.now()
+        item.tongTien   = req.body.tongthanhtoan
+        item.status     =  "cho-lay-hang"
+        await donHangService.addItem(item)
+        nodemailerDonHangHelpers.mail(req.user.email, item.tongTien)
+        res.redirect(`/`)
+    }
 
 }

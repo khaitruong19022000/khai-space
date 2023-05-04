@@ -64,7 +64,7 @@ module.exports = {
         let choosedStatus = req.params.status;
         let statusFilter = await ProductService.countAll({choosedStatus, arrIdCategory, arrIdGroup})
 
-        let pageTitle = 'Blog Article'
+        let pageTitle = 'Product'
  
         res.render(`${renderName}list` , {
             items :        data,

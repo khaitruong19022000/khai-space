@@ -41,6 +41,31 @@ $(document).ready(function() {
     });
 });
 
+//----submit form đơn hàng ---//
+
+$('form[name="donhang"]').on( "submit", function( event ) {
+    event.preventDefault();
+    let flag = false;
+    let data = {}
+    let city = $("#city option:selected").text()
+    let district = $("#district option:selected").text()
+    let ward = $("#ward option:selected").text()
+    if (city !== "Chọn tỉnh thành" && district !== "Chọn quận huyện" && ward !== "Chọn phường xã"){
+        flag = true
+        data.tinh = city
+        data.huyen = district
+        data.xa = ward
+    }
+    if(!flag){
+        $('span[class="form-message"]').text("Vui lòng điền đầy đủ thông tin địa chỉ nhận hàng") 
+    }
+    if (flag) {
+        $('input[name="diachi"]').val(JSON.stringify(data))
+        localStorage.removeItem('cart')
+        $('form[name="donhang"]')[0].submit();
+    }
+});
+
 //--------------- Ajax -------------------///
 //-------add Cart start ----------//
 let cart = []
@@ -97,6 +122,7 @@ window.onload = function() {
 }
 
 const showCart = (shoppingCart) => {
+    let arrSanPham = []
     let totalCart = 0
     let numberCart = 0
 
@@ -106,6 +132,12 @@ const showCart = (shoppingCart) => {
     if (checkOut !== null)     checkOut.innerHTML = ''
     cartBody.innerHTML = ''
     shoppingCart.map(item => {
+        let data = {}
+        data.id = item.product.id
+        data.sl = item.quantity
+        data.price = item.product.price
+        arrSanPham.push(JSON.stringify(data))
+
         totalCart += Number(item.product.price) * Number(item.quantity)
         numberCart += 1
         let price = priceHelper(item.product.price)
@@ -179,6 +211,8 @@ const showCart = (shoppingCart) => {
 
     //----Xử lý thanh toán---//
     tongThanhToan()
+    //----Đưa thông tin lên server---//
+    getSanpham(arrSanPham)
 }
 
 const priceHelper = (price) => {
@@ -224,4 +258,14 @@ const tongThanhToan = () => {
 
 }
 //-------Tính Tổng Thanh Toán end ----------//
+
+//-------- Đưa thông tin lên server ---------//
+
+const getSanpham = (arrSanPham) => {
+    $('input[name="sanpham"]').val(JSON.stringify(arrSanPham))
+    $('input[name="tongthanhtoan"]').val($('strong.TongThanhToan').text().replace(/\D/g, ''))
+}
+
+
+
 

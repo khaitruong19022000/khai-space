@@ -52,7 +52,7 @@ module.exports = {
         let choosedStatus = req.params.status;
         let statusFilter = await SliderService.countAll({choosedStatus, arrIdCategory})
 
-        let pageTitle = 'Blog Slider'
+        let pageTitle = 'Slider'
  
         res.render(`${renderName}list` , {
             items :        data,

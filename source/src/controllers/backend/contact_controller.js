@@ -44,7 +44,7 @@ module.exports = {
         let choosedStatus = req.params.status;
         let statusFilter = await contactService.countAll({choosedStatus})
 
-        let pageTitle = 'Blog contact'
+        let pageTitle = 'Contact'
  
         res.render(`${renderName}list` , {
             items :        data,

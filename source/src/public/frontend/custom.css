@@ -88,8 +88,16 @@ u:hover {
 }
 /*--search--*/
 
+/*--notify--*/
 .text-red{
     color: red;
 }
+
+/*--button Đơn Hàng--*/
+.donHang {
+    margin-left: 30%;
+}
+
+
 
 
