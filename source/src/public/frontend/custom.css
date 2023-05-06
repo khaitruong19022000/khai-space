@@ -98,6 +98,13 @@ u:hover {
     margin-left: 30%;
 }
 
+/*--Footer--*/
+#footer{
+    background-color:rgba(205, 215, 214, 0.3)
+}
 
+#copyrights{
+    background-color:rgba(223 ,228, 219, 0.5)
+}
 
 
