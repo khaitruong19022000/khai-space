@@ -176,6 +176,16 @@ module.exports = {
 
         req.flash('success', notify.SUCCESS_INVOICE)
         res.redirect(`/`)
+    },
+
+    changeStatusDonHang:async (req, res, next) => {
+        let id            = paramsHelpers.getParam(req.params, 'id', '')
+        let status        = 'da-huy'
+        console.log(id);
+
+        await donHangService.changeStatus({id, status})
+        req.flash('success',"hủy thành công đơn hàng")
+        res.redirect(`/`)
     }
 
 }

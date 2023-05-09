@@ -330,6 +330,7 @@ module.exports = {
                 sanpham.push(item)
             }
             let oneDonHang = {}
+            oneDonHang.id = data[i].id
             oneDonHang.sanpham = sanpham
             oneDonHang.tongtien = tongtien
             donhang.push(oneDonHang)

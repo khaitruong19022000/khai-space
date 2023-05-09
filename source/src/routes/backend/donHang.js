@@ -37,7 +37,13 @@ router
 
 router
     .route('/add')
-    .post(donHangController.getAddDonHang) 
+    .post(donHangController.getAddDonHang)
+
+router
+    .route('/huydon/:id')
+    .get(donHangController.changeStatusDonHang)
+
+
 
 
 
