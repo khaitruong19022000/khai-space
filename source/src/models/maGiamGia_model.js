@@ -11,12 +11,15 @@ const maGiamGiaModel = new Schema({
         type : Number,
     },
     loai : {
-        type : String,
+        type : Boolean,
     },
-    rate: {
+    sotien: {
         type : Number,
     },
-    soLuong : {
+    phamtram: {
+        type : Number,
+    },
+    quantity : {
         type : Number,
     },
     ngaybatdau: {

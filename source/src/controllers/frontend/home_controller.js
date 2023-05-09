@@ -27,6 +27,8 @@ module.exports = {
 
     ListProduct: async (req , res , next) => {
 
+        let fillter  = paramsHelpers.getParam(req.params, 'filter', '')
+
         let search   = paramsHelpers.getParam(req.query, 'search', '')
 
         let condition = {}
@@ -40,7 +42,7 @@ module.exports = {
         }
 
 
-        let { categoryProductItems } =   await HomeService.findAllCategoryProduct()
+        let { categoryProductItems } =   await HomeService.findAllCategoryProduct({fillter})
 
         let arrIdCategory = []
         categoryProductItems.forEach(value => {
@@ -49,12 +51,25 @@ module.exports = {
 
         condition.status = "active"
         condition.id_category = { $in: arrIdCategory }
-        
+
         let { data_product } =   await HomeService.ListProduct({condition, pagination})
-        let slug = ''
+
+        let product = []
+
+        data_product.forEach(value => {
+            let oneProduct = {}
+            oneProduct.id     = value.id
+            oneProduct.name   = value.name
+            oneProduct.avatar = value.avatar
+            oneProduct.price  = value.price
+            product.push(oneProduct)
+        })
+   
+        let slug = fillter
+
 
         res.render('frontend/page/product', {
-            data_product,
+            product,
             pagination,
             slug,
             search
@@ -163,20 +178,30 @@ module.exports = {
                 }
         
         
-                let { categoryProductItems } =   await HomeService.findAllCategoryProduct()
+                // let { categoryProductItems } =   await HomeService.findAllCategoryProduct()
         
-                let arrIdCategory = []
-                categoryProductItems.forEach(value => {
-                    arrIdCategory.push(value.id)
-                })
+                // let arrIdCategory = []
+                // categoryProductItems.forEach(value => {
+                //     arrIdCategory.push(value.id)
+                // })
         
                 condition.status = "active"
                 condition.id_category = item.id
                 
                 let { data_product } =   await HomeService.ListProduct({condition, pagination})
+
+                let product = []
+                data_product.forEach(value => {
+                    let oneProduct = {}
+                    oneProduct.id     = value.id
+                    oneProduct.name   = value.name
+                    oneProduct.avatar = value.avatar
+                    oneProduct.price  = value.price
+                    product.push(oneProduct)
+                })
         
                 res.render('frontend/page/product', {
-                    data_product,
+                    product,
                     pagination,
                     slug,
                     search

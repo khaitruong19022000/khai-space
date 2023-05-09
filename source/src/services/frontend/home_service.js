@@ -23,7 +23,7 @@ module.exports = {
             arrCheck: { $in: [ "special" ] },
         }
 
-        let data_product_special = await ProductModel.find(condition).sort({ordering : 1}).limit(3)
+        let data_product_special = await ProductModel.find(condition).sort({ordering : 1}).limit(4)
 
         return {
             data_product_special
@@ -36,7 +36,7 @@ module.exports = {
             arrCheck: { $in: [ "show_home" ] },
         }
 
-        let data_product_show_home = await ProductModel.find(condition).sort({ordering : 1}).limit(11)
+        let data_product_show_home = await ProductModel.find(condition).sort({ordering : 1}).limit(15)
 
         return {
             data_product_show_home
@@ -86,8 +86,17 @@ module.exports = {
         }
     },
 
-    findAllCategoryProduct: async () => {
-        let categoryProductItems = await CategoryProductModel.find({status: 'active'}, { id: 1, name: 1 })
+    findAllCategoryProduct: async (obj) => {
+        let condition = {
+            status: 'active',
+        }
+
+        if (obj.fillter !== ''){
+            let arrFliter = obj.fillter.split('-')
+            condition.slug = { $in: arrFliter }
+        }
+        let categoryProductItems = await CategoryProductModel.find(condition, { id: 1, name: 1 })
+        
         return {
             categoryProductItems
         }

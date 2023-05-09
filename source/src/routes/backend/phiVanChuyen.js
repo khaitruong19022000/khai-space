@@ -18,13 +18,6 @@ router
     .route('/change-status/:id/:status')
     .get(phiVanChuyenController.getStatus)
 
-// router
-//     .route('/change-number/:id/:number/:collection')
-//     .get(phiVanChuyenController.getNumber)    
-
-// router
-//     .route('/delete/:id')
-//     .get(phiVanChuyenController.deleteItem)
 
 router
     .route('/sotien/:value')

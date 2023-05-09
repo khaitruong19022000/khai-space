@@ -11,6 +11,7 @@ const passport = require('passport')
 const session = require('express-session');
 const moment = require('moment');
 
+
 const configPath = require('./path');
 
 // Define Path
@@ -71,6 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Local variable
 app.locals.systemConfig       = systemConfig;
 app.locals.moment             = moment;
+// app.locals.datepicker         = datepicker;
 
 app.use('/', indexRouter);
 

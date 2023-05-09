@@ -1,18 +1,11 @@
+
 $(document).ready(function () {
-    // import Tagify from '@yaireo/tagify' start
     $('[name=from]').tagify();
-
     var from = document.querySelector('input[name=from]')
-
     tagify = new Tagify( from );
-
     $('[name=cc]').tagify();
-
     var cc = document.querySelector('input[name=cc]')
-
     tagify = new Tagify( cc );
-    // import Tagify from '@yaireo/tagify' end
-
 
     var ckbAll = $(".cbAll");
     var fmAdmin = $("#zt-form");
@@ -166,6 +159,9 @@ $(document).ready(function () {
         $(`div#${myId}`).removeAttr('hidden');
     });
 // loai gia
+    $(".inputRadio:radio").parent().find('.inputloaiGiamGia').attr("hidden",true);
+    $(".inputRadio:radio:checked").parent().find('.inputloaiGiamGia').removeAttr("hidden");
+
     $("[class=inputRadio]").click(function(){
         $("input.inputloaiGiamGia").attr("hidden",true);
         $(this).parent().children().map(function() {

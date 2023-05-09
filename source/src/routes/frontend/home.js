@@ -12,7 +12,7 @@ router
     .get(HomeController.ListHome)
 
 router
-    .route('/product')
+    .route('/product(/:filter)?')
     .get(HomeController.ListProduct)
 
 router
@@ -53,7 +53,8 @@ router
     
 router
     .route('/thanh-toan')
-    .get(loginFrontEndMiddleware, HomeController.CheckOut) 
+    // .get(loginFrontEndMiddleware, HomeController.CheckOut) 
+    .get(HomeController.CheckOut)
 
 router
     .route('/don-hang(/:action)?')

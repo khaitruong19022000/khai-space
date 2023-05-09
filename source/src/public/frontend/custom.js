@@ -1,3 +1,4 @@
+
 var localpath      = window.location.pathname
 var clearlocalpath = localpath.replace('/', '');
 
@@ -69,7 +70,62 @@ $('form[name="donhang"]').on( "submit", function( event ) {
 //--------------- Ajax -------------------///
 //-------add Cart start ----------//
 let cart = []
-const addCart = (id, name, avatar, price) => {
+const addCart = async (id, name, avatar, price) => {
+
+    let count = $('input[name="quantityProduct"]').val()
+    if (count !== undefined) {
+        for (let i = 0; i < count; i++) {
+            let storage = localStorage.getItem('cart')
+
+            if (storage) {
+                cart = JSON.parse(storage)
+            }
+        
+        
+            let product = {
+                product: {id, name, avatar, price},
+                quantity: 1
+            }
+        
+            let item = cart.find(c => c.product.id == id)
+            if (item) {
+                item.quantity += 1
+            } else {
+               await cart.push(product)
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart))
+
+            showCart(cart)
+        }
+    } else {
+        let storage = localStorage.getItem('cart')
+
+        if (storage) {
+            cart = JSON.parse(storage)
+        }
+    
+    
+        let product = {
+            product: {id, name, avatar, price},
+            quantity: 1
+        }
+    
+        let item = cart.find(c => c.product.id == id)
+        if (item) {
+            item.quantity += 1
+        } else {
+            cart.push(product)
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart))
+
+        showCart(cart)
+    }
+
+}
+
+const reduceItem = (id, name, avatar, price) => {
 
     let storage = localStorage.getItem('cart')
 
@@ -84,9 +140,10 @@ const addCart = (id, name, avatar, price) => {
 
     let item = cart.find(c => c.product.id == id)
     if (item) {
-        item.quantity += 1
+        if(item.quantity <= 1) removeItem(id)
+        else item.quantity -= 1
     } else {
-        cart.push(product)
+        removeItem(id)
     }
 
 
@@ -149,10 +206,10 @@ const showCart = (shoppingCart) => {
                                     <div class="top-cart-item-desc">
                                         <div class="top-cart-item-desc-title">
                                             <a href="#" class="fw-medium">${item.product.name}</a>
-                                            <span class="top-cart-item-price d-block"><del>$29.99</del> ${price}</span>
+                                            <span class="top-cart-item-price d-block">${price}</span>
                                             <div class="d-flex mt-2">
-                                                <a href="/thanh-toan" class="fw-normal text-black-50 text-smaller"><u>Edit</u></a>
-                                                <a  class="fw-normal text-black-50 text-smaller ms-3"><u onclick="removeItem('${item.product.id}')">Remove</u></a>
+                                                <a href="/thanh-toan" class="fw-normal text-black-50 text-smaller"><u>Sửa</u></a>
+                                                <a  class="fw-normal text-black-50 text-smaller ms-3"><u onclick="removeItem('${item.product.id}')">Xóa</u></a>
                                             </div>
                                         </div>
                                         <div class="top-cart-item-quantity">x ${item.quantity}</div>
@@ -182,9 +239,9 @@ const showCart = (shoppingCart) => {
 
                                         <td class="cart-product-quantity">
                                             <div class="quantity">
-                                                <input type="button" value="-" class="minus">
+                                                <input type="button" onclick="reduceItem('${item.product.id}', '${item.product.name}', '${item.product.avatar}', '${price}')" value="-" class="minus">
                                                 <input type="text" name="quantity" value="${item.quantity}" class="qty" />
-                                                <input type="button" value="+" class="plus">
+                                                <input type="button" onclick="addCart('${item.product.id}', '${item.product.name}', '${item.product.avatar}', '${price}')" value="+" class="plus">
                                             </div>
                                         </td>
 
@@ -252,7 +309,8 @@ $('select#city').change(function() {
 //-------Tính Tổng Thanh Toán start ----------//
 const tongThanhToan = () => {
     let tongTienHang = $('span#totalProduct').text().replace(/\D/g, '')
-    let tongThanhToan = priceHelper(Number(tongTienHang) + Number(phiVanChuyen))
+    let voucher      = $('span[class="voucher"]').text().replace(/\D/g, '')
+    let tongThanhToan = priceHelper(Number(tongTienHang) + Number(phiVanChuyen) - Number(voucher))
 
     $('strong.TongThanhToan').text(tongThanhToan)
 
@@ -265,6 +323,90 @@ const getSanpham = (arrSanPham) => {
     $('input[name="sanpham"]').val(JSON.stringify(arrSanPham))
     $('input[name="tongthanhtoan"]').val($('strong.TongThanhToan').text().replace(/\D/g, ''))
 }
+
+//------- Phương thức thanh toán ------------//
+$('select[name="phuongthucthanhtoan"]').change(function() {
+    var chuyenkhoan = document.getElementById("chuyenkhoan");
+    chuyenkhoan.innerHTML = ``
+    if (this.value === '2'){
+        chuyenkhoan.innerHTML += `<label class="nganhang">Ngân hàng BIDV chi nhánh Thủ Đức</label><br>
+                                  <label class="nganhang">9704 0616 9304 2934</label><br>
+                                  <label class="nganhang">Trương Quang Khải</label>`
+    }
+})
+
+$('input[name="magiamgia"]').change(function() {
+    let value = this.value
+    if (value === '') value = '1'
+    link = "admin/maGiamGia/check/" + value
+
+    $.get(link,
+        function (data, textStatus, jqXHR) {
+            let { value, ngayketthuc, ngaybatdau ,success } = data;
+            let flag = false
+            if (success === true) {
+                let tongTienHang = $('span#totalProduct').text().replace(/\D/g, '')
+                let today = new Date()
+                let day = today.getTime()/(60*1000*60*60*24);
+                if (ngayketthuc > day && day >ngaybatdau){
+                    if (Number(tongTienHang) > value.gioi_han_tien_giam){
+                        flag = true
+                        $('span[name="magiamgia"]').text('Mã giảm giá hợp lệ')
+                        $('span[name="magiamgia"]').css('color', 'green')
+    
+                        let voucher = 0
+                        if (value.loai == false) {
+                            voucher = priceHelper(value.sotien);
+                        }
+                        else {
+                            voucher = priceHelper(Number(tongTienHang) * value.phamtram * 0.01);
+                        }
+    
+                        let voucherTotal = document.getElementById('magiamgia')
+                        voucherTotal.innerHTML= ''
+                        voucherTotal.innerHTML += `<td class="cart-product-name">
+                                                                    <strong>Voucher từ Khai Space</strong>
+                                                                </td>
+                                                                <td class="cart-product-name">
+                                                                    <span class="voucher">${voucher}</span>
+                                                                </td>`
+                    }                   
+                }
+            }
+            if (flag == false) {
+                $('span[name="magiamgia"]').text("Mã giảm giá không hợp lệ")
+                $('span[name="magiamgia"]').css('color', 'red')
+                let voucherTotal = document.getElementById('magiamgia')
+                    voucherTotal.innerHTML= ''
+            }
+            tongThanhToan()
+        },
+        "json"
+    );
+})
+
+//------Filter Products---------//
+const changeCheckBox = (link) => {
+    const a = []
+    $(".filter:checkbox:checked").map(function () {
+        a.push(this.value)
+    })
+    let newlink = link + a.join('-')
+    $.get(newlink,
+        function (data, textStatus, jqXHR) {
+            let { success, data_product} = data;
+            if (success === true) {
+                console.log(data_product);
+            }
+        },
+        "json"
+    );
+}
+
+
+
+
+
 
 
 

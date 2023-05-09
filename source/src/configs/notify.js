@@ -14,6 +14,7 @@ module.exports = {
   ERROR_LOGIN_USERNAME_NOTEXIST: 'Username không tồn tại',
   ERROR_LOGIN_PASSWORD_INCORRECT: 'Password không chính xác',
   SUCCESS_SIGNUP: 'Đăng ký tài khoản thành công',
+  SUCCESS_INVOICE: 'Đặt hàng thành công',
   ERROR_CHECK_CODE: 'Mã kích hoạt không đúng',
   
 };

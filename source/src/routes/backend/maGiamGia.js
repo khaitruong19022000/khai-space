@@ -31,6 +31,10 @@ router
     .post(maGiamGiaController.changeMultipleAction)
 
 router
+    .route('/check/:code')
+    .get(maGiamGiaController.checkDiscountCode)
+
+router
     .route('/sort/:sort_field/:sort_type')
     .get(maGiamGiaController.getSort)    
 

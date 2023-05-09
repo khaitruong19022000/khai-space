@@ -4,6 +4,7 @@ const renderName = `backend/page/${routerName}/`;
 const linkPrefix = `/admin/maGiamGia/`
 
 const util = require('util')
+const moment = require('moment');
 
 const paramsHelpers = require(`${__path_helpers}params`)
 const notify  		= require(`${__path_configs}notify`)
@@ -129,10 +130,7 @@ module.exports = {
     saveItem: async (req, res, next) => {
         req.body = JSON.parse(JSON.stringify(req.body))
         let item = Object.assign(req.body)
-
-        let slug = SlugHelpers.slug(item.name)
-        item.slug = slug
-
+        
         if(typeof item !== 'undefined' && item.id !== ""){ //edit
             maGiamGiaService.editItem(item)
             req.flash('success', notify.EDIT_SUCCESS, false) 
@@ -159,5 +157,24 @@ module.exports = {
         }
 
     },
+
+    checkDiscountCode: async (req, res, next) => {
+        let code              = paramsHelpers.getParam(req.params, 'code', '')
+        let { value ,success } = await maGiamGiaService.checkDiscountCode({code})
+        let ngayketthuc = 0
+        let ngaybatdau = 0
+
+        if(value !== null) {
+            ngayketthuc = value.ngayketthuc.getTime()/(60*1000*60*60*24)
+            ngaybatdau = value.ngaybatdau.getTime()/(60*1000*60*60*24)
+        }
+
+        res.send({ 
+            value ,
+            ngayketthuc,
+            ngaybatdau,
+            success 
+        })
+    }
 
 }

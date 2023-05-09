@@ -93,7 +93,9 @@
 							<th class="text-center">#</a></th>
 							<%- sortListHelper(linkPrefix, 'Name', 'name', sortField, sortType) %>
 							<%- sortListHelper(linkPrefix, 'Status', 'status', sortField, sortType) %>
-							<%- sortListHelper(linkPrefix, 'Ordering', 'ordering', sortField, sortType) %>
+							<%- sortListHelper(linkPrefix, 'Quantity', 'quantity', sortField, sortType) %>
+							<th class="text-center">Start</a></th>
+							<th class="text-center">End</a></th>
 							<th class="text-center">Action</th>
 						</tr>
 					<% } %>
@@ -116,7 +118,15 @@
 							</td>
 
 							<td class="text-center position-relative" >
-								<%- numberHelper(value.id, value.ordering, linkPrefix) %>
+								<%- numberHelper(value.id, value.quantity, linkPrefix, "Quantity") %>
+							</td>
+
+							<td class="text-center position-relative" >
+								<%- moment(value.ngaybatdau).format('MM/DD/YYYY') %>
+							</td>
+
+							<td class="text-center position-relative" >
+								<%- moment(value.ngayketthuc).format('MM/DD/YYYY') %>
 							</td>
 
 							<td class="text-center">

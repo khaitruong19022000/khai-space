@@ -25,24 +25,34 @@
                 <div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label text-sm-right required">Loại</label>
                     <div class="col-xs-6 col-sm-4 loaiGiamGia">
-                        <input type="radio" class="inputRadio" name="parent" checked value="true">
+                        <input type="radio" class="inputRadio" name="loai" <%=(items.loai == true ? 'checked' : '' ) %>  value="true">
                         <label for="html">Phần Trăm</label>
-                        <input type="number" id="rate" name="rate" class="form-control form-control-sm inputloaiGiamGia" value="<%= items.rate%>" min="0" max="100">
+                        <input type="number" id="phamtram" name="phamtram" class="form-control form-control-sm inputloaiGiamGia" value="<%= items.phamtram%>" min="0" max="100">
                     </div>
                     <div class="col-xs-6 col-sm-4 loaiGiamGia">
-                        <input type="radio" class="inputRadio" name="parent" <%=(items.parent=="false" ? 'checked' : '' ) %> value="false">
+                        <input type="radio" class="inputRadio" name="loai" <%=(items.loai== false ? 'checked' : '' ) %> value="false">
                         <label for="css">Số Tiền</label>
-                        <input type="number" id="rate" name="rate" class="form-control form-control-sm inputloaiGiamGia" value="<%= items.rate%>" hidden>
+                        <input type="number" id="sotien" name="sotien" class="form-control form-control-sm inputloaiGiamGia" value="<%= items.sotien%>" hidden>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label text-sm-right required">Số lượng</label>
                     <div class="col-xs-12 col-sm-8">
-                        <input type="number" id="soLuong" name="soLuong" class="form-control form-control-sm" value="<%= items.soLuong%>">
+                        <input type="number" id="quantity" name="quantity" class="form-control form-control-sm" value="<%= items.quantity%>">
                         <span class="form-message" style = "color: red;"></span>
                     </div>
                 </div>
-                <div id="picker"></div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label text-sm-right required">Ngày bắt đầu:</label>
+                    <div class="col-xs-4 col-sm-3 ">
+                        <input onmouseover="showDate()" type="text" name="ngaybatdau" class="datepicker" value="<%- moment(items.ngaybatdau).format('MM/DD/YYYY') %>">
+                    </div>
+                    <label for="name" class="col-sm-2 col-form-label text-sm-right required">Ngày kết thúc:</label>
+                    <div class="col-xs-4 col-sm-3 ">
+                        <input onmouseover="showDate()" type="text" name="ngayketthuc" class="datepicker" value="<%- moment(items.ngayketthuc).format('MM/DD/YYYY') %>">
+                    </div>
+                </div>
                 
                 <div class="form-group row">
                     <label for="status" class="col-sm-2 col-form-label text-sm-right">Status</label>
@@ -79,16 +89,12 @@
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name'),
-                Validator.minLength('#name', 6, 'Name phải có tối thiểu 6 ký tự'),
-                Validator.isRequired('#ordering'),
-                Validator.minMaxInt('#ordering', 1, 100, 'Ordering phải số nguyên và có giá trị từ 1 đến 100'),
-                Validator.isSelected('#status', 'Vui lòng chọn trường status'),
+                Validator.minLength('#name', 4, 'Name phải có tối thiểu 6 ký tự'),
             ],
         });
     </script>
     <script>
-        mobiscroll.datepicker('#picker', {
-        controls: ['calendar', 'time'],
-        touchUi: true
-        })
+        const showDate = () => {
+            $( ".datepicker" ).datepicker();
+        } 
     </script>

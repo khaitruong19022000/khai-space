@@ -106,4 +106,14 @@ module.exports = {
         }
     },
 
+    checkDiscountCode: async (obj) => {
+        let data = await maGiamGiaModel.findOne({name: obj.code, quantity: {$gte:1}})
+        let success = true
+        if (data === null) success = false
+        return {
+            value: data,
+            success,
+        }
+    },
+
 }

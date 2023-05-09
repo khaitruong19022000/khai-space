@@ -71,11 +71,14 @@
                             </div>
 
                             <div class="col-12 form-group">
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm">
+                                <select name="phuongthucthanhtoan" class="form-select form-select-sm" aria-label=".form-select-sm">
                                     <option value="0" selected>Chọn hình thức thanh toán</option>
                                     <option value="1" >Thanh toán khi nhận hàng</option>
                                     <option value="2" >Chuyển khoản ngân hàng</option>
                                 </select>
+                            </div>
+
+                            <div class="col-12 form-group center" id="chuyenkhoan">
                             </div>
 
                             <div class="col-8 form-group">
@@ -83,7 +86,8 @@
                             </div>
 
                             <div class="col-4 form-group">
-                                <input type="text" class="sm-form-control" placeholder="Mã Giảm Giá" />
+                                <input name="magiamgia" type="text" class="sm-form-control" placeholder="Mã Giảm Giá" />
+                                <span  name="magiamgia" ></span>
                             </div>
 
                             <input type="text" name="sanpham" hidden/>
@@ -110,6 +114,8 @@
                                         <td class="cart-product-name">
                                             <span class="amount" id="totalProduct">0đ</span>
                                         </td>
+                                    </tr>
+                                    <tr class="cart_item" id="magiamgia">
                                     </tr>
                                     <tr class="cart_item">
                                         <td class="cart-product-name">

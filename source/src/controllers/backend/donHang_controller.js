@@ -123,7 +123,7 @@ module.exports = {
 
         await donHangService.deleteItem({id})
 
-        req.flash('warning', notify.DELETE_SUCCESS, false)           
+        req.flash('warning', notify.DELETE_SUCCESS)           
         res.redirect(`${linkPrefix}`)
     },
 
@@ -136,11 +136,11 @@ module.exports = {
 
         if(typeof item !== 'undefined' && item.id !== ""){ //edit
             donHangService.editItem(item)
-            req.flash('success', notify.EDIT_SUCCESS, false) 
+            req.flash('success', notify.EDIT_SUCCESS) 
             res.redirect(`${linkPrefix}`)
         }else{ // add
             donHangService.addItem(item)
-            req.flash('success', notify.ADD_SUCCESS, false) 
+            req.flash('success', notify.ADD_SUCCESS) 
             res.redirect(`${linkPrefix}`)
         }
     },
@@ -151,11 +151,11 @@ module.exports = {
 
         if (action === 'delete') {
             let { deletedCount } = await donHangService.ChangeDeleteMultiple({arrId})
-            req.flash('success', util.format(notify.DELETE_MULTI_SUCCESS, deletedCount), false) 
+            req.flash('success', util.format(notify.DELETE_MULTI_SUCCESS, deletedCount)) 
             res.redirect(`${linkPrefix}`)
         }else{
             let { modifiedCount } = await donHangService.ChangeStatusMultiple({arrId, action})
-            req.flash('success', util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, modifiedCount), false) 
+            req.flash('success', util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, modifiedCount)) 
             res.redirect(`${linkPrefix}`)
         }
 
@@ -173,6 +173,8 @@ module.exports = {
         item.status     =  "cho-lay-hang"
         await donHangService.addItem(item)
         nodemailerDonHangHelpers.mail(req.user.email, item.tongTien)
+
+        req.flash('success', notify.SUCCESS_INVOICE)
         res.redirect(`/`)
     }
 
