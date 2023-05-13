@@ -6,7 +6,6 @@ const linkPrefix = `/admin/donHang/`
 const util = require('util')
 
 const paramsHelpers = require(`${__path_helpers}params`)
-const PDFHelpers = require(`${__path_helpers}PDF_donhang`)
 const notify  		= require(`${__path_configs}notify`)
 const SlugHelpers   = require(`${__path_helpers}slug`)
 const nodemailerDonHangHelpers   = require(`${__path_helpers}nodemailer_donhang`)
@@ -91,7 +90,6 @@ module.exports = {
 
     getForm : async (req , res , next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
-        // let pdf           = PDFHelpers.PDF_Invoice()
 
         let { pageTitle, data } = await donHangService.getForm({id})
 
