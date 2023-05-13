@@ -53,26 +53,6 @@
 <div class="card card-info card-outline">
 	<div class="card-header">
 		<h4 class="card-title">List</h4>
-		<div class="card-tools">
-			<div class="btn-group">
-				<button type="button" class="btn btn-info" data-toggle="dropdown" aria-expanded="false">Change Status</button>
-				</>
-				<div class="dropdown-menu" role="menu" >
-					<button type="button" onClick="javascript:changeMultiStatus('active')" class="dropdown-item" data-toggle="modal" data-target="#modal-success">
-						Change to Active
-						</button>
-					<div class="dropdown-divider"></div>
-						<button type="button" onClick="changeMultiStatus('inactive')" class="dropdown-item" data-toggle="modal" data-target="#modal-danger">
-							Change to Inactive
-						</button>
-					</div>
-				</div>
-			<a href="<%= linkPrefix %>form" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
-			<button type="button" class="btn btn-danger" onClick="changeMultiStatus('delete')" data-toggle="modal" data-target="#modal-danger">
-				<i class="fas fa-trash-alt"></i>Delete Multi
-			</button>
-		</div>
-		<input type="hidden" name="action" id="inputHiddenAll" value="" >
 	</div>
 	<div class="card-body">
 		<!-- Control -->
@@ -117,10 +97,6 @@
 							<td class="text-center">
 								<a href="<%= linkPrefix %>form/<%= value.id%>" class="rounded-circle btn btn-sm btn-info " title="Edit">
 									<i class="fas fa-pencil-alt"></i>
-								</a>
-			
-								<a href="<%= linkPrefix %>delete/<%= value.id%>" class="rounded-circle btn btn-sm btn-danger">
-									<i class="fas fa-trash-alt"></i>
 								</a>
 							</td>
 						</tr>

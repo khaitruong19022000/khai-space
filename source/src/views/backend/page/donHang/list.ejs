@@ -5,11 +5,13 @@
 %>
 
 <% include ./../../helper/status.ejs %>
+<% include ./../../helper/price.ejs %>
 <% include ./../../helper/inputNumber.ejs %>
-<% include ./../../helper/filter-status.ejs %>
+<% include ./../../helper/filter-status-invoice.ejs %>
 <% include ./../../helper/pagination.ejs %>
 <% include ./../../helper/highlight-char.ejs %>
 <% include ./../../helper/sort-list.ejs %>
+<% include ./../../helper/select-box-ajax.ejs %>
 
 <h3><%- locals.flash %></h3>
 <div class="row mb-2">
@@ -28,7 +30,7 @@
 		<div class="row justify-content-between">
 			<div class="mb-1">
 				<div class="btn-search">
-					<%- filterStatusHelper(statusFilter, keyword, linkPrefix) %>
+					<%- filterStatusInvoiceHelper(statusFilter, keyword, linkPrefix) %>
 				</div>
 			</div>
 			
@@ -92,8 +94,10 @@
 							</th>
 							<th class="text-center">#</a></th>
 							<%- sortListHelper(linkPrefix, 'Name', 'name', sortField, sortType) %>
+							<th class="text-center">SĐT</a></th>
+							<th class="text-center">Tổng Tiền</a></th>
 							<%- sortListHelper(linkPrefix, 'Status', 'status', sortField, sortType) %>
-							<%- sortListHelper(linkPrefix, 'Ordering', 'ordering', sortField, sortType) %>
+							<th class="text-center">Ngày Đặt</a></th>
 							<th class="text-center">Action</th>
 						</tr>
 					<% } %>
@@ -109,23 +113,17 @@
 							
 							</td>
 							<td class="text-center"><%= index+1 %></td>
-							<td class="text-center"><%- highlightHelper(value.name, keyword) %></td>
-
-							<td id="changeStatus-<%= value.id%>" class="text-center position-relative">
-								<%- statusHelper(value.status, value.id, linkPrefix) %>
+							<td class="text-center"><%- highlightHelper(value.user, keyword) %></td>
+							<td class="text-center"><%= value.sdt %></td>
+							<td class="text-center"><%- priceHelper(value.tongTien) %></td>
+							<td class="text-center position-relative">
+								<%- selectBoxAjaxHelper('status', arrStatus, value.status, value.id, linkPrefix, "change-status") %>
 							</td>
-
-							<td class="text-center position-relative" >
-								<%- numberHelper(value.id, value.ordering, linkPrefix) %>
-							</td>
+							<td class="text-center"><%- moment(value.NgayDat).format('MM/DD/YYYY') %></td>
 
 							<td class="text-center">
 								<a href="<%= linkPrefix %>form/<%= value.id%>" class="rounded-circle btn btn-sm btn-info " title="Edit">
 									<i class="fas fa-pencil-alt"></i>
-								</a>
-			
-								<a href="<%= linkPrefix %>delete/<%= value.id%>" class="rounded-circle btn btn-sm btn-danger">
-									<i class="fas fa-trash-alt"></i>
 								</a>
 							</td>
 						</tr>
@@ -148,4 +146,6 @@
         document.getElementById('multiForm').submit();
     }
 </script>	
+
+
 

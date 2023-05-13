@@ -6,6 +6,7 @@ const frontendhelper = require('../helpers/frontendhelper')
 module.exports = async (req, res, next) => {
     await frontendhelper.getMenu(req).then((result) => {
         res.locals.listMenu = result.data
+        res.locals.search = ''
     })
     await frontendhelper.getSetting(req).then((result) => {
         res.locals.listSetting = result.dataSetting

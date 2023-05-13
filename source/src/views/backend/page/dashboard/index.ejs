@@ -1,12 +1,105 @@
 <% include ./../../helper/dashboard.ejs %>
+<% include ./../../helper/time-period.ejs %>
 
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <%- dashboardHelper("bg-info", items.category, "Blog Category" , "ion-bag", "admin/category") %>
             <%- dashboardHelper("bg-success", items.article, "Blog Article" , "ion-stats-bars", "admin/article") %>
-            <%- dashboardHelper("bg-warning", items.slider, "Slider" , "ion-person-add" ) %>
-            <%- dashboardHelper("bg-danger", items.menu, "Menu" , "ion-pie-graph", "admin/menu") %>
+            <%- dashboardHelper("bg-warning", items.categoryProduct, "Product Category" , "ion-pie-graph", "admin/category_product" ) %>
+            <%- dashboardHelper("bg-danger", items.product, "Product" , "ion-ios-cart-outline" , "admin/product") %>
+            <%- dashboardHelper("bg-primary", items.categoryAccount, "Account Category" , "ion-clipboard", "admin/category_account") %>
+            <%- dashboardHelper("bg-dark", items.authen, "Account" , "ion-person-add", "admin/account") %>
+
+            <%- dashboardHelper("bg-info", items.slider, "Slider" , "ion-bag", "admin/slider") %>
+            <%- dashboardHelper("bg-success", items.contact, "Contact" , "ion-stats-bars", "admin/contact") %>
+            <%- dashboardHelper("bg-warning", items.menu, "Menu" , "ion-pie-graph", "admin/menu" ) %>
+            <%- dashboardHelper("bg-danger", items.setting, "Setting" , "ion-ios-cart-outline" , "admin/setting") %>
+            <%- dashboardHelper("bg-primary", items.phiVanChuyen, "Phí Vận Chuyển" , "ion-clipboard", "admin/phiVanChuyen") %>
+            <%- dashboardHelper("bg-dark", items.maGiamGia, "Mã Giảm Giá" , "ion-person-add", "admin/maGiamGia") %>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">Top 10 đơn hàng gần nhất</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn Hàng</th>
+                                    <th>Khách Hàng</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Tổng Tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% items.donHang.forEach(value => { %>
+                                    <tr>
+                                        <td><a href="pages/examples/invoice.html"><%= value.id%></a></td>
+                                        <td><%= value.user%></td>
+                                        <td><span class="badge badge-danger"><%= value.status%></span></td>
+                                        <td>
+                                            <div class="sparkbar" data-color="#f56954" data-height="20">
+                                                <%= value.tongTien%></div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer clearfix">
+                    <a href="admin/donHang" class="btn btn-sm btn-secondary float-right">Xem tất cả đơn hàng</a>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- USERS LIST -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Top 10 User hoạt động gần nhất</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <ul class="users-list clearfix">
+                        <% items.showAccount.forEach(value => { %>
+                        <li>
+                            <img src="uploads/noAvatar.jpg" alt="User Image">
+                            <a class="users-list-name" href="#"><%= value.username%></a>
+                            <%- timePeriodHelper(value.lastDateLogin)%>
+                        </li>
+                        <% }) %>
+                    </ul>
+                    <!-- /.users-list -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer text-center">
+                    <a href="admin/account/">Xem tất cả các User</a>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+            <!--/.card -->
         </div>
     </div>
 </section>

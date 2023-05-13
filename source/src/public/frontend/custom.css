@@ -108,5 +108,48 @@ label[class^="nganhang"]{
     font-size: 120%;
 }
 
+/*-- checkout invoice--*/
+div[class^="table-invoice"]{
+    margin: 0 10%;
+    background-color: rgba(231, 231, 231, 0.4);
+    border-radius: 25px;
+}
+
+div[class^="info-invoice"]{
+    margin: 0 10%;
+    background-color: rgba(146 ,211 ,213 ,0.1);
+    border-radius: 25px;
+}
+
+div[class^="info-invoice"] > .col-mb-30 {
+    margin: 0 5%;
+}
+
+div[class^="info-invoice"] > .col-mb-30  > .col-lg-6{
+    margin-top: 5%;
+}
+
+.bnt-search{
+    background-color: #b8ded7;
+    border-radius: 3px;
+    margin: 3px;
+    padding: 3px;
+}
+
+.bnt-search:hover{
+    background-color: #9acec5;
+}
+
+.alertify-notifier{
+    top: 15% !important
+}
+
+div.filter{
+    background-color: #e7e7e7;
+    border-radius: 5px;
+}
+
+
+
 
 

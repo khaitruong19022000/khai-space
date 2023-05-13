@@ -69,10 +69,10 @@
             <div class="row item-categories gutter-20 blog_content">
                 <% data_blog.forEach((value) => { %>
                     <div class="col-lg-6 col-md-6">
-                        <a href="blogs/<%= value.slug%>" class="d-block h-op-09 op-ts"
+                        <a href="blog/<%= value.slug%>" class="d-block h-op-09 op-ts"
                             style="background: url('<%=folderUpload%><%= value.avatar%>') no-repeat center center; background-size: cover; height: 340px;">
                         </a>
-                        <a href="blogs/<%= value.slug%>">
+                        <a href="blog/<%= value.slug%>">
                             <h4 class="title_product"><%= value.name%></h4>
                             <div>------</div>
                             <p class="des_product"><%- value.short_description%>[..]</p>

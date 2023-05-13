@@ -132,7 +132,12 @@ module.exports = {
         let item = Object.assign(req.body)
         
         if(typeof item !== 'undefined' && item.id !== ""){ //edit
+            if (item.loai) {
+                item.sotien = 0
+            } else item.phamtram = 0
+
             maGiamGiaService.editItem(item)
+
             req.flash('success', notify.EDIT_SUCCESS, false) 
             res.redirect(`${linkPrefix}`)
         }else{ // add
@@ -165,7 +170,7 @@ module.exports = {
         let ngaybatdau = 0
 
         if(value !== null) {
-            ngayketthuc = value.ngayketthuc.getTime()/(60*1000*60*60*24)
+            ngayketthuc = (value.ngayketthuc.getTime()+(60*1000*60*60*24))/(60*1000*60*60*24)
             ngaybatdau = value.ngaybatdau.getTime()/(60*1000*60*60*24)
         }
 

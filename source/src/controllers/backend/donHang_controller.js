@@ -6,12 +6,14 @@ const linkPrefix = `/admin/donHang/`
 const util = require('util')
 
 const paramsHelpers = require(`${__path_helpers}params`)
+const PDFHelpers = require(`${__path_helpers}PDF_donhang`)
 const notify  		= require(`${__path_configs}notify`)
 const SlugHelpers   = require(`${__path_helpers}slug`)
 const nodemailerDonHangHelpers   = require(`${__path_helpers}nodemailer_donhang`)
 const {validationResult} = require('express-validator')
 
 const donHangService = require(`${__path_services}backend/donHang_service`);
+const accountService = require(`${__path_services}backend/account_service`);
 
 module.exports = {
     getlist : async (req , res , next) => {
@@ -37,32 +39,65 @@ module.exports = {
             condition = {status: currentStatus, name: {$regex: keyword, $options: 'i'}}
         }
 
+        let allUser          = await accountService.findAllUser({})
+        let arrIdUser = []
+        allUser.data.forEach(value => {
+            arrIdUser.push(value.id)
+        })
+        condition.idUserName = { $in: arrIdUser }
+
         let { data }  = await donHangService.getAll({pagination, condition, sort})
+        let items = []
+        for (let i = 0; i < data.length; i++) {
+            let name = {}
+            let {username} = await accountService.findUserName(data[i].idUserName)
+            name.user         = username
+            name.id           = data[i]._id
+            name.idUserName   = data[i].idUserName
+            name.diaChi       = data[i].diaChi
+            name.sdt          = data[i].sdt
+            name.sanpham      = data[i].sanpham
+            name.ghichu       = data[i].ghichu
+            name.NgayDat      = data[i].NgayDat
+            name.tongTien     = data[i].tongTien
+            name.status       = data[i].status
+            items.push(name)
+        }
 
         let choosedStatus = req.params.status;
         let statusFilter = await donHangService.countAll({choosedStatus})
 
         let pageTitle = 'Đơn Hàng'
+
+        let arrStatus = [
+                          {id: "cho-lay-hang",name: "Chờ lấy hàng"},
+                          {id: "van-chuyen",name: "Vận chuyển"},
+                          {id: "hoan-thanh",name: "Hoàn thành"},
+                          {id: "da-huy",name: "Đã hủy"},
+                        ]
  
         res.render(`${renderName}list` , {
-            items :        data,
+            items :        items,
             pageTitle,
             currentStatus,
             keyword,
             pagination,
             statusFilter:  statusFilter,
             sortType,
-            sortField
+            sortField,
+            arrStatus
         })
     },
 
     getForm : async (req , res , next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
+        // let pdf           = PDFHelpers.PDF_Invoice()
 
         let { pageTitle, data } = await donHangService.getForm({id})
 
         res.render(`${renderName}form` , {
             pageTitle,
+            // pdf,
             items :  data
         });
     },
@@ -76,14 +111,11 @@ module.exports = {
 
     getStatus: async (req , res , next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
-        let currentStatus = paramsHelpers.getParam(req.params, 'status', 'active')
-        let status        = (currentStatus === 'active') ? 'inactive' : 'active'
+        let status = paramsHelpers.getParam(req.params, 'status', 'cho-lay-hang')
 
         let data = await donHangService.changeStatus({id, status})
-        data.status        = status
-        data.id            = id
-        data.currentStatus = currentStatus
 
+        data.name = "status"
         res.send(data) 
     },
 

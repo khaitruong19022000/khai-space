@@ -9,35 +9,7 @@ const HomeController = require(`${__path_controllers}frontend/home_controller`)
  
 router
     .route('/')
-    .get(HomeController.ListHome)
-
-router
-    .route('/product(/:filter)?')
-    .get(HomeController.ListProduct)
-
-router
-    .route('/blog')
-    .get(HomeController.ListBlog) 
-
-router
-    .route('/view_product/:id')
-    .get(HomeController.ListProductDetail)
-
-router
-    .route('/dang-nhap')
-    .get(HomeController.ListLogin)
-
-router
-    .route('/dang-ky')
-    .get(HomeController.ListSignup)
-
-router
-    .route('/dang-ky/ma-kich-hoat')
-    .post(HomeController.ListCheckCode)     
-
-router
-    .route('/blogs(/:slug)?')
-    .get(HomeController.ListBlogDetail)
+    .get(HomeController.ListHome)   
     
 router
     .route('/ve-chung-toi')
@@ -50,11 +22,6 @@ router
 router
     .route('/chinh-sach-doi-tra')
     .get(HomeController.ListPolicy)
-    
-router
-    .route('/thanh-toan')
-    // .get(loginFrontEndMiddleware, HomeController.CheckOut) 
-    .get(HomeController.CheckOut)
 
 router
     .route('/don-hang(/:action)?')
@@ -63,10 +30,5 @@ router
 router
     .route('/contact')
     .post(HomeController.Contact)
-
-router
-    .route('/:slug')
-    .get(HomeController.ListSlug)
-
 
 module.exports = router;

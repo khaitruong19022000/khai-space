@@ -18,11 +18,15 @@ $('div.blog_category div.blog_category_sub a').map(function() {
 })
 
 
-
 //---show List category product ---//
-function showList() {
-    document.getElementById("showList").classList.toggle("show");
+function showListLoai() {
+    document.getElementById("showListLoai").classList.toggle("show");
 }
+ 
+function showListGia() {
+    document.getElementById("showListGia").classList.toggle("show");
+}
+
 
 //---set time notify ---//
 const myTimeout = setTimeout(notifies, 5000);
@@ -123,6 +127,7 @@ const addCart = async (id, name, avatar, price) => {
         showCart(cart)
     }
 
+    alertify.success(` Thêm vào giỏ hàng thành công`); 
 }
 
 const reduceItem = (id, name, avatar, price) => {
@@ -164,6 +169,8 @@ const removeItem = (id) => {
     localStorage.setItem('cart', JSON.stringify(cart))
 
     showCart(cart)
+
+    alertify.warning(` Xóa khỏi giỏ hàng thành công`);
 }
 
 window.onload = function() {
@@ -272,15 +279,33 @@ const showCart = (shoppingCart) => {
     getSanpham(arrSanPham)
 }
 
-const priceHelper = (price) => {
-    let USDollar = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    });
-    let newprice = USDollar.format(price)
+//----hàm Helper---//
+// const priceHelper = (price) => {
+//     let USDollar = new Intl.NumberFormat('vi-VN', {
+//         style: 'currency',
+//         currency: 'VND',
+//     });
+//     let newprice = USDollar.format(price)
 
-    return newprice;
-}
+//     return newprice;
+// }
+// const addCartHelper = (id, name, avatar, price) => {
+//     xhtmlStatus = `<a class="btn btn-light me-2"><i onclick="addCart('${id}', '${name}', '${avatar}', '${price}')" class="icon-line-shopping-cart"></i></a>`
+//     return xhtmlStatus;
+// }
+// const highlightHelper = (name, keyword) => {
+//     if(keyword !== ""){
+//         const regex = new RegExp(keyword, "gi");
+//         name = name.replace(regex, (search) => {
+//             return `<span class="text-red">${search}</span>`
+//         });
+//         return name;
+//     }
+//     return name;
+// }
+//----hàm Helper---//
+
+
 //-------add Cart End ----------//
 let phiVanChuyen = 0
 //-------phiVanChuyen start ----------//
@@ -351,14 +376,18 @@ $('input[name="magiamgia"]').change(function() {
                 if (ngayketthuc > day && day >ngaybatdau){
                     if (Number(tongTienHang) > value.gioi_han_tien_giam){
                         flag = true
-                        $('span[name="magiamgia"]').text('Mã giảm giá hợp lệ')
-                        $('span[name="magiamgia"]').css('color', 'green')
+                        // $('span[name="magiamgia"]').text('Mã giảm giá hợp lệ')
+                        // $('span[name="magiamgia"]').css('color', 'green')
     
                         let voucher = 0
                         if (value.loai == false) {
                             voucher = priceHelper(value.sotien);
+                            $('span[name="magiamgia"]').text(`Mã giảm giá ${voucher} hợp lệ`)
+                            $('span[name="magiamgia"]').css('color', 'green')
                         }
                         else {
+                            $('span[name="magiamgia"]').text(`Mã giảm giá ${value.phamtram}% hợp lệ`)
+                            $('span[name="magiamgia"]').css('color', 'green')
                             voucher = priceHelper(Number(tongTienHang) * value.phamtram * 0.01);
                         }
     
@@ -384,25 +413,6 @@ $('input[name="magiamgia"]').change(function() {
         "json"
     );
 })
-
-//------Filter Products---------//
-const changeCheckBox = (link) => {
-    const a = []
-    $(".filter:checkbox:checked").map(function () {
-        a.push(this.value)
-    })
-    let newlink = link + a.join('-')
-    $.get(newlink,
-        function (data, textStatus, jqXHR) {
-            let { success, data_product} = data;
-            if (success === true) {
-                console.log(data_product);
-            }
-        },
-        "json"
-    );
-}
-
 
 
 

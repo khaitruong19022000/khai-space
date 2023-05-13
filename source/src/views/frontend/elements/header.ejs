@@ -40,7 +40,7 @@
                                     <ul class="menu-container">
                                         <li class="menu-item current">
                                             <a class="menu-link" href="demo-furniture.html">
-                                                <div><i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i>Tài Khoản</div>
+                                                <div><i class="icon-line2-user me-1 position-relative" style="top: 1px;"></i><%= userInfo.username%></div>
                                             </a>
                                             <ul class="sub-menu-container">
                                                 <li class="menu-item">
@@ -126,7 +126,13 @@
                 <!-- Top Search Form
                 ============================================= -->
                 <form class="top-search-form" id="searchProductHome" action="/product" method="get">
-                    <input type="text" name="search" class="form-control" value="" placeholder="Tìm Kiếm Sản Phẩm">
+                    <% if(search !== undefined){ %>
+                        <input type="text" name="search" class="form-control" value="<%= search%>" placeholder="Tìm Kiếm Sản Phẩm">
+                        <a href="/product" class="bnt-search"><span style="margin: 3px; color: black;">clear</span></a>
+                    <% } else { %>
+                        <input type="text" name="search" class="form-control" value="" placeholder="Tìm Kiếm Sản Phẩm">
+                        <a href="/product" class="bnt-search"><span style="margin: 3px; color: black;">clear</span></a>
+                    <% } %>
                 </form>
             </div>
         </div>

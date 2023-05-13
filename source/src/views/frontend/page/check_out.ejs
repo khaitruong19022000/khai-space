@@ -26,118 +26,121 @@
     <section id="content">
         <div class="content-wrap">
             <div class="container">
+                <div class="table-invoice">
+                    <table class="table cart mb-5">
+                        <thead>
+                            <tr>
+                                <th class="cart-product-remove">&nbsp;</th>
+                                <th class="cart-product-thumbnail">&nbsp;</th>
+                                <th class="cart-product-name">Sản Phẩm</th>
+                                <th class="cart-product-price">Đơn Giá</th>
+                                <th class="cart-product-quantity">Số Lượng</th>
+                                <th class="cart-product-subtotal">Số Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="check-out">
+                        </tbody>
+        
+                    </table>
+                </div>
+
+                <div class="info-invoice">
+                    <div class="row col-mb-30">
+                        <div class="col-lg-6">
+                            <h4>Địa Chỉ Nhận Hàng</h4>
+                            <span class="form-message" style = "color: red;"></span>
+                            <form class="row" action= <%= linkPrefix + 'add'%> method="POST" name="donhang">
+                                <div class="col-8 form-group">
+                                    <b><input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Họ Tên" value="<%= userInfo.hoten%>" required/></b>
+                                </div>
+        
+                                <div class="col-4 form-group">
+                                    <input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Số Điện Thoại" value="<%= userInfo.phone%>" required/>
+                                </div>
     
-                <table class="table cart mb-5">
-                    <thead>
-                        <tr>
-                            <th class="cart-product-remove">&nbsp;</th>
-                            <th class="cart-product-thumbnail">&nbsp;</th>
-                            <th class="cart-product-name">Sản Phẩm</th>
-                            <th class="cart-product-price">Đơn Giá</th>
-                            <th class="cart-product-quantity">Số Lượng</th>
-                            <th class="cart-product-subtotal">Số Tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody id="check-out">
-                    </tbody>
+                                <div class="col-12 form-group">
+                                    <select  class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+                                        <option value="" selected>Chọn tỉnh thành</option>           
+                                    </select>
+                                                  
+                                    <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                        
+                                    <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+                                        <option value="" selected>Chọn phường xã</option>
+                                    </select>
+                                </div>
     
-                </table>
+                                <div class="col-12 form-group">
+                                    <select name="phuongthucthanhtoan" class="form-select form-select-sm" aria-label=".form-select-sm">
+                                        <option value="0" selected>Chọn hình thức thanh toán</option>
+                                        <option value="1" >Thanh toán khi nhận hàng</option>
+                                        <option value="2" >Chuyển khoản ngân hàng</option>
+                                    </select>
+                                </div>
     
-                <div class="row col-mb-30">
-                    <div class="col-lg-6">
-                        <h4>Địa Chỉ Nhận Hàng</h4>
-                        <span class="form-message" style = "color: red;"></span>
-                        <form class="row" action= <%= linkPrefix + 'add'%> method="POST" name="donhang">
-                            <div class="col-8 form-group">
-                                <b><input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Họ Tên" value="<%= userInfo.hoten%>" required/></b>
-                            </div>
+                                <div class="col-12 form-group center" id="chuyenkhoan">
+                                </div>
     
-                            <div class="col-4 form-group">
-                                <input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Số Điện Thoại" value="<%= userInfo.phone%>" required/>
+                                <input type="text" name="sanpham" hidden/>
+                                <input type="text" name="tongthanhtoan" hidden/>
+                                <input type="text" name="diachi" hidden/>
+    
+                                <div class="col-12 form-group">
+                                    <button class="button button-3d m-0 button-black">Thanh Toán</button>
+                                </div>
+                            </form>
+                        </div>
+        
+                        <div class="col-lg-6">
+                            <h4>Thanh Toán</h4>
+        
+                            <div class="table-responsive">
+                                <table class="table cart cart-totals">
+                                    <tbody>
+                                        <tr class="cart_item">
+                                            <td class="cart-product-name">
+                                                <strong>Tổng tiền hàng</strong>
+                                            </td>
+        
+                                            <td class="cart-product-name">
+                                                <span class="amount" id="totalProduct">0đ</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="cart_item" id="magiamgia">
+                                        </tr>
+                                        <tr class="cart_item">
+                                            <td class="cart-product-name">
+                                                <strong>Phí vận chuyển</strong>
+                                            </td>
+        
+                                            <td class="cart-product-name">
+                                                <span class="amount Free_Delivery">0đ</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="cart_item">
+                                            <td class="cart-product-name">
+                                                <strong>Tổng thanh toán</strong>
+                                            </td>
+        
+                                            <td class="cart-product-name">
+                                                <span class="amount color lead"><strong class="TongThanhToan">0đ</strong></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+        
+                                </table>
                             </div>
 
                             <div class="col-12 form-group">
-                                <select  class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
-                                    <option value="" selected>Chọn tỉnh thành</option>           
-                                </select>
-                                              
-                                <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
-                                    <option value="" selected>Chọn quận huyện</option>
-                                </select>
-                                    
-                                <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
-                                    <option value="" selected>Chọn phường xã</option>
-                                </select>
+                                <textarea name="ghichu" class="sm-form-control" placeholder="Lời nhắn cho người bán"></textarea>
                             </div>
 
-                            <div class="col-12 form-group">
-                                <select name="phuongthucthanhtoan" class="form-select form-select-sm" aria-label=".form-select-sm">
-                                    <option value="0" selected>Chọn hình thức thanh toán</option>
-                                    <option value="1" >Thanh toán khi nhận hàng</option>
-                                    <option value="2" >Chuyển khoản ngân hàng</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 form-group center" id="chuyenkhoan">
-                            </div>
-
-                            <div class="col-8 form-group">
-                                <input type="text" name="ghichu" class="sm-form-control" placeholder="Lời nhắn cho người bán" />
-                            </div>
-
-                            <div class="col-4 form-group">
+                            <div class="col-6 form-group">
                                 <input name="magiamgia" type="text" class="sm-form-control" placeholder="Mã Giảm Giá" />
                                 <span  name="magiamgia" ></span>
                             </div>
-
-                            <input type="text" name="sanpham" hidden/>
-                            <input type="text" name="tongthanhtoan" hidden/>
-                            <input type="text" name="diachi" hidden/>
-
-                            <div class="col-12 form-group">
-                                <button class="button button-3d m-0 button-black">Thanh Toán</button>
-                            </div>
-                        </form>
-                    </div>
-    
-                    <div class="col-lg-6">
-                        <h4>Thanh Toán</h4>
-    
-                        <div class="table-responsive">
-                            <table class="table cart cart-totals">
-                                <tbody>
-                                    <tr class="cart_item">
-                                        <td class="cart-product-name">
-                                            <strong>Tổng tiền hàng</strong>
-                                        </td>
-    
-                                        <td class="cart-product-name">
-                                            <span class="amount" id="totalProduct">0đ</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart_item" id="magiamgia">
-                                    </tr>
-                                    <tr class="cart_item">
-                                        <td class="cart-product-name">
-                                            <strong>Phí vận chuyển</strong>
-                                        </td>
-    
-                                        <td class="cart-product-name">
-                                            <span class="amount Free_Delivery">0đ</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart_item">
-                                        <td class="cart-product-name">
-                                            <strong>Tổng thanh toán</strong>
-                                        </td>
-    
-                                        <td class="cart-product-name">
-                                            <span class="amount color lead"><strong class="TongThanhToan">0đ</strong></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-    
-                            </table>
                         </div>
                     </div>
                 </div>

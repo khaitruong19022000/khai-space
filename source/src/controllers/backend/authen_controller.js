@@ -19,6 +19,7 @@ module.exports = {
         const { data, code, user_code } = req.body
         if (code === user_code) {
             const newdata = JSON.parse(data);
+            newdata.lastDateLogin = new Date()
             await AuthenService.addItem(newdata)
     
             req.flash('success', notify.SUCCESS_SIGNUP)
@@ -38,6 +39,10 @@ module.exports = {
     },
 
     checkLogout : async (req , res , next) => {
+        let data = {}
+        data.id = req.user._id
+        data.lastDateLogin = new Date()
+        await AuthenService.updateLastLogin(data)
         req.logout(function(err) {
             if (err) { return next(err); }
             res.redirect('/dang-nhap');

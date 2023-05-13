@@ -1,5 +1,5 @@
 const donHangModel = require(`${__path_models}donHang_model`)
-const utilsHelpers  = require(`${__path_helpers}utils`)
+const utilsHelpers  = require(`${__path_helpers}utils-invoice`)
 
 module.exports = {
     getAll: async (obj) => { // (GetData for LIST, Pagination, Search)
@@ -20,7 +20,7 @@ module.exports = {
     },
 
     countAll: async (obj) => { // Filter 
-        let statusFilter = utilsHelpers.createFilterStatus(obj.choosedStatus, donHangModel)
+        let statusFilter = utilsHelpers.createFilterStatusInvoice(obj.choosedStatus, donHangModel)
         return statusFilter
     },
 

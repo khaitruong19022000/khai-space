@@ -62,7 +62,7 @@ const changeCategory = (link, category) => {
         function (data, textStatus, jqXHR) {
             let { success, name } = data;
             if (success === true) {
-                alertify.success(`Thay đổi Category thành công`); 
+                alertify.success(`Thay đổi ${name} thành công`); 
             }
         },
         "json"

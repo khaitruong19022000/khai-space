@@ -25,7 +25,11 @@ const AuthenModel = new Schema({
     },
     boss: {
         type : String,
+    },
+    lastDateLogin: {
+        type : Date,
     }
+    
 }, {
     timestamps : true
 }) 

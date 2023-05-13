@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 router.use('/authen',require('./authen'))
 router.use('/no-permission',require('./no_permission'))
 
-router.use('/', require('./dashboard'))
+router.use('/',loginMiddleware ,require('./dashboard'))
 
 router.use('/rss',require('./rss'))
 router.use('/account',require('./account'))

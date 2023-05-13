@@ -118,6 +118,28 @@ module.exports = {
         } 
     },
 
+    findAllUser: async () => {
+        let data          = await AuthenModel.find({}).select('_id')
+        return {
+            data
+        }
+    },
+
+    findUserName: async (id) => {
+        let data = await AuthenModel.findById(id)
+
+        return {
+            username: data.username
+        }
+    },
+
+    updateLastLogin: async (obj) => { // (update lần đăng nhập gần nhất)
+        await AuthenModel.updateOne({_id:obj.id}, {
+            lastDateLogin: obj.lastDateLogin,
+        });
+    },
+
+//----------front-end Authentication ---------//
     findOne: async (username) => {
         let condition = {
             username: username,
@@ -136,5 +158,5 @@ module.exports = {
 
         return {data}
     }
-
+//----------front-end Authentication ---------//
 }

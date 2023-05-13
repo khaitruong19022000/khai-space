@@ -65,11 +65,15 @@ module.exports = {
 
     editItem: async (obj) => { // (edit item)
         await maGiamGiaModel.updateOne({_id:obj.id}, {
-                ordering: obj.ordering,
-                status: obj.status,
                 name: obj.name,
-                slug: obj.slug,
-                content: obj.content
+                gioi_han_tien_giam: obj.gioi_han_tien_giam,
+                loai: obj.loai,
+                phamtram: obj.phamtram,
+                sotien: obj.sotien,
+                quantity: obj.quantity,
+                ngaybatdau: obj.ngaybatdau,
+                ngayketthuc: obj.ngayketthuc,
+                status: obj.status,
             });
     },
 
@@ -107,7 +111,7 @@ module.exports = {
     },
 
     checkDiscountCode: async (obj) => {
-        let data = await maGiamGiaModel.findOne({name: obj.code, quantity: {$gte:1}})
+        let data = await maGiamGiaModel.findOne({name: obj.code, quantity: {$gte:1}, status: "active"})
         let success = true
         if (data === null) success = false
         return {
