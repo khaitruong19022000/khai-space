@@ -1,6 +1,6 @@
 <%
     const folderUpload = 'uploads/items/'
-    const linkPrefix   = 'admin/donHang/'
+    const linkPrefix   = 'thanh-toan/'
 %>
 
 <% include ./../helper/pagination.ejs %>
@@ -55,7 +55,7 @@
                                 </div>
         
                                 <div class="col-4 form-group">
-                                    <input type="text" class="sm-form-control required" style="font-weight:bold;" placeholder="Số Điện Thoại" value="<%= userInfo.phone%>" required/>
+                                    <input type="tel" name="sdt" class="sm-form-control required" style="font-weight:bold;" placeholder="Số Điện Thoại" value="<%= userInfo.phone%>" required/>
                                 </div>
     
                                 <div class="col-12 form-group">
@@ -73,10 +73,10 @@
                                 </div>
     
                                 <div class="col-12 form-group">
-                                    <select name="phuongthucthanhtoan" class="form-select form-select-sm" aria-label=".form-select-sm">
+                                    <select id="phuongthucthanhtoan" name="phuongthucthanhtoan" class="form-select form-select-sm" aria-label=".form-select-sm">
                                         <option value="0" selected>Chọn hình thức thanh toán</option>
-                                        <option value="1" >Thanh toán khi nhận hàng</option>
-                                        <option value="2" >Chuyển khoản ngân hàng</option>
+                                        <option value="Thanh toán khi nhận hàng" >Thanh toán khi nhận hàng</option>
+                                        <option value="Chuyển khoản ngân hàng" >Chuyển khoản ngân hàng</option>
                                     </select>
                                 </div>
     
@@ -84,6 +84,7 @@
                                 </div>
     
                                 <input type="text" name="sanpham" hidden/>
+                                <input type="text" name="info" hidden/>
                                 <input type="text" name="tongthanhtoan" hidden/>
                                 <input type="text" name="diachi" hidden/>
     

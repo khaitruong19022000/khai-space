@@ -23,6 +23,7 @@ button.btn_setting{
 }
 
 div.button_setting{
+  margin-top: 5% ;
   margin: 0 auto;
   width: 1000px;
   text-align:center;
@@ -31,6 +32,24 @@ div.button_setting{
 div.button_submit{
   margin-left:0%;
 }
+
+
+/*Error*/
+button.btn_setting_error{
+  width: 180px;
+  border-radius: 15px;
+  background-color: #434343;
+}
+
+button.btn_setting_error:hover{
+  background-color: #7d7878;
+  border-color: aliceblue;
+}
+
+button.btn_setting_error > a {
+  color: aliceblue;
+}
+/*Error*/
 
 /*Table in List Article*/
 
@@ -87,3 +106,22 @@ table.my_table th.name{
   width: 30%;
 }
 /*Loai Giam Gia end*/
+
+/*---Form Dashboard---*/
+form.form-dashboard{
+  padding-left: 7%;
+}
+
+form.form-dashboard > input{
+  width: 60%;
+  margin-right: 5px;
+}
+
+form.form-dashboard > button{
+  border-radius: 30px;
+}
+/*---Form Dashboard---*/
+
+.center{
+  text-align: center !important;
+}

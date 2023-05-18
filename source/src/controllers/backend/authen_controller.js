@@ -31,6 +31,11 @@ module.exports = {
     },
 
     checkLogin: async (req , res , next) => {
+        let data = {}
+        data.username = req.body.username
+        data.lastDateLogin = new Date()
+        await AuthenService.updateLastLogin(data)
+
         passport.authenticate('local', { 
             successRedirect: '/',
             failureRedirect: '/dang-nhap',
@@ -40,9 +45,10 @@ module.exports = {
 
     checkLogout : async (req , res , next) => {
         let data = {}
-        data.id = req.user._id
+        data.username = req.user.username
         data.lastDateLogin = new Date()
         await AuthenService.updateLastLogin(data)
+
         req.logout(function(err) {
             if (err) { return next(err); }
             res.redirect('/dang-nhap');

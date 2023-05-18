@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
         if (req.user.role !== undefined) {
             let {data} = await CategoryAccountService.findIdAdmin(req.user.role)
 
-            if(data.name === 'admin' || data.name === 'boss'){
+            if(data.name === 'boss'){
                 next()
             }
             else{
@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
             }
         } else {
             res.redirect('/admin/no-permission')
-                res.end()
+            res.end()
         }
     }else {
         res.redirect('/dang-nhap')

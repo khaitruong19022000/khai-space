@@ -1,5 +1,6 @@
 const CategoryModel = require(`${__path_models}category_model`)
 const utilsHelpers  = require(`${__path_helpers}utils`)
+const catchAsync  = require(`${__path_utils}catchAsync`)
 
 module.exports = {
     getAll: async (obj) => { // (GetData for LIST, Pagination, Search)
@@ -53,8 +54,16 @@ module.exports = {
         if(obj.id === ''){ /// add
             pageTitle = 'Add - Form'
         }else { /// edit
-            data = await CategoryModel.findById(obj.id)
+            data = await catchAsync(CategoryModel.findById(obj.id))
+            // try {
+            //     data = await CategoryModel.findById(obj.id)
+            //     // pageTitle = 'Edit - Form'
+            //   } catch (e) {
+            //     console.error("inner", e);
+            //   }
+            // data = await CategoryModel.findById(obj.id)
             pageTitle = 'Edit - Form'
+            console.log(data);
         }
 
         return {

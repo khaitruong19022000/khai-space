@@ -33,9 +33,9 @@ module.exports = {
         sort[sortField] = sortType
         
         if (currentStatus === 'all'){
-            if(keyword !== '') condition = {name: {$regex: keyword, $options: 'i'}}
+            if(keyword !== '') condition = {maDonHang: {$regex: keyword, $options: 'i'}}
         }else {
-            condition = {status: currentStatus, name: {$regex: keyword, $options: 'i'}}
+            condition = {status: currentStatus, maDonHang: {$regex: keyword, $options: 'i'}}
         }
 
         let allUser          = await accountService.findAllUser({})
@@ -52,6 +52,7 @@ module.exports = {
             let {username} = await accountService.findUserName(data[i].idUserName)
             name.user         = username
             name.id           = data[i]._id
+            name.maDonHang    = data[i].maDonHang
             name.idUserName   = data[i].idUserName
             name.diaChi       = data[i].diaChi
             name.sdt          = data[i].sdt
@@ -93,10 +94,15 @@ module.exports = {
 
         let { pageTitle, data } = await donHangService.getForm({id})
 
+        let name = {}
+        let {username, email} = await accountService.findUserName(data.idUserName)
+        name.user         = username
+        name.email        = email
+
         res.render(`${renderName}form` , {
             pageTitle,
-            // pdf,
-            items :  data
+            items :  data,
+            name : name
         });
     },
 
@@ -190,32 +196,5 @@ module.exports = {
         }
 
     },
-
-    getAddDonHang: async (req, res, next) => {
-        let item = {}
-        item.idUserName = req.user._id
-        item.diaChi     = req.body.diachi
-        item.sdt        = req.user.phone
-        item.sanpham    = JSON.parse(req.body.sanpham)
-        item.ghiChu     = req.body.ghichu
-        item.NgayDat    = Date.now()
-        item.tongTien   = req.body.tongthanhtoan
-        item.status     =  "cho-lay-hang"
-        await donHangService.addItem(item)
-        nodemailerDonHangHelpers.mail(req.user.email, item.tongTien)
-
-        req.flash('success', notify.SUCCESS_INVOICE)
-        res.redirect(`/`)
-    },
-
-    changeStatusDonHang:async (req, res, next) => {
-        let id            = paramsHelpers.getParam(req.params, 'id', '')
-        let status        = 'da-huy'
-        console.log(id);
-
-        await donHangService.changeStatus({id, status})
-        req.flash('success',"hủy thành công đơn hàng")
-        res.redirect(`/`)
-    }
 
 }

@@ -12,4 +12,20 @@ router
     .get(loginFrontEndMiddleware, ThanhToanController.CheckOut) 
     // .get(HomeController.CheckOut)
 
+router
+    .route('/phiVanChuyen/:value')
+    .get(ThanhToanController.checkPhiVanChuyen) 
+
+router
+    .route('/maGiamGia/:code')
+    .get(ThanhToanController.checkMaGiamGia)
+    
+router
+    .route('/add')
+    .post(ThanhToanController.getAddDonHang)
+
+router
+    .route('/huydon/:id')
+    .get(ThanhToanController.changeStatusDonHang)
+
 module.exports = router;

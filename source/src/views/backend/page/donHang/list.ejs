@@ -55,26 +55,6 @@
 <div class="card card-info card-outline">
 	<div class="card-header">
 		<h4 class="card-title">List</h4>
-		<div class="card-tools">
-			<div class="btn-group">
-				<button type="button" class="btn btn-info" data-toggle="dropdown" aria-expanded="false">Change Status</button>
-				</>
-				<div class="dropdown-menu" role="menu" >
-					<button type="button" onClick="javascript:changeMultiStatus('active')" class="dropdown-item" data-toggle="modal" data-target="#modal-success">
-						Change to Active
-						</button>
-					<div class="dropdown-divider"></div>
-						<button type="button" onClick="changeMultiStatus('inactive')" class="dropdown-item" data-toggle="modal" data-target="#modal-danger">
-							Change to Inactive
-						</button>
-					</div>
-				</div>
-			<a href="<%= linkPrefix %>form" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
-			<button type="button" class="btn btn-danger" onClick="changeMultiStatus('delete')" data-toggle="modal" data-target="#modal-danger">
-				<i class="fas fa-trash-alt"></i>Delete Multi
-			</button>
-		</div>
-		<input type="hidden" name="action" id="inputHiddenAll" value="" >
 	</div>
 	<div class="card-body">
 		<!-- Control -->
@@ -93,11 +73,12 @@
 								</div>
 							</th>
 							<th class="text-center">#</a></th>
-							<%- sortListHelper(linkPrefix, 'Name', 'name', sortField, sortType) %>
+							<%- sortListHelper(linkPrefix, 'Mã đơn hàng', 'maDonHang', sortField, sortType) %>
+							<th class="text-center">Name</a></th>
 							<th class="text-center">SĐT</a></th>
 							<th class="text-center">Tổng Tiền</a></th>
 							<%- sortListHelper(linkPrefix, 'Status', 'status', sortField, sortType) %>
-							<th class="text-center">Ngày Đặt</a></th>
+							<%- sortListHelper(linkPrefix, 'Ngày Đặt', 'NgayDat', sortField, sortType) %>
 							<th class="text-center">Action</th>
 						</tr>
 					<% } %>
@@ -113,13 +94,14 @@
 							
 							</td>
 							<td class="text-center"><%= index+1 %></td>
-							<td class="text-center"><%- highlightHelper(value.user, keyword) %></td>
+							<td class="text-center"><%- highlightHelper(value.maDonHang, keyword) %></td>
+							<td class="text-center"><%= value.user %></td>
 							<td class="text-center"><%= value.sdt %></td>
 							<td class="text-center"><%- priceHelper(value.tongTien) %></td>
 							<td class="text-center position-relative">
 								<%- selectBoxAjaxHelper('status', arrStatus, value.status, value.id, linkPrefix, "change-status") %>
 							</td>
-							<td class="text-center"><%- moment(value.NgayDat).format('MM/DD/YYYY') %></td>
+							<td class="text-center"><%- moment(value.NgayDat).format('DD/MM/YYYY') %></td>
 
 							<td class="text-center">
 								<a href="<%= linkPrefix %>form/<%= value.id%>" class="rounded-circle btn btn-sm btn-info " title="Edit">

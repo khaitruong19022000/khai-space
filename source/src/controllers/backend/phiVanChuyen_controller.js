@@ -160,11 +160,4 @@ module.exports = {
 
     },
 
-    soTien: async (req, res, next) => {
-        let value            = paramsHelpers.getParam(req.params, 'value', '')
-        let { soTien, success } = await phiVanChuyenService.soTien({value})
-
-        res.send({success, soTien})
-    }
-
 }

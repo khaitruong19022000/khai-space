@@ -129,12 +129,13 @@ module.exports = {
         let data = await AuthenModel.findById(id)
 
         return {
-            username: data.username
+            username: data.hoten,
+            email: data.email
         }
     },
 
     updateLastLogin: async (obj) => { // (update lần đăng nhập gần nhất)
-        await AuthenModel.updateOne({_id:obj.id}, {
+        await AuthenModel.findOneAndUpdate({username:obj.username}, {
             lastDateLogin: obj.lastDateLogin,
         });
     },

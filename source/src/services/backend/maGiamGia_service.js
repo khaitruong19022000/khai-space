@@ -102,7 +102,7 @@ module.exports = {
             modifiedCount
         } 
     },
-
+    //----frontend start ----//
     show_frontend: async () => {
         let data = await maGiamGiaModel.find({status: "active"})
         return {
@@ -119,5 +119,5 @@ module.exports = {
             success,
         }
     },
-
+    //----frontend end ----//
 }

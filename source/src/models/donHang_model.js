@@ -4,6 +4,9 @@ const donHangModel = new Schema({
     idUserName : {
         type : String,
     },
+    maDonHang: {
+        type : String,
+    },
     diaChi : {
         type : String,
     },
@@ -13,7 +16,7 @@ const donHangModel = new Schema({
     sanpham : [
         String,
     ],
-    ghiChu : {
+    info : {
         type : String,
     },
     phuongThucThanhToan: {

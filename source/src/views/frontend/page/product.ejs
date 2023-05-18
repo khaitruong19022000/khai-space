@@ -102,7 +102,6 @@
 						</div>
 
 					</div>
-
 					<!-- Shop
 					============================================= -->
 					<div id="shop" class="shop row gutter-30 col-mb-30 mt-3">
@@ -180,4 +179,19 @@
 			showProducts(product, search) 
 
 
+		</script>
+
+
+		<script type="text/javascript">
+			var socket = io.connect()
+
+			socket.emit('router', 'product')
+
+			socket.on('receiveDiscount', (code) => {
+				// var customContent = '<div style="text-align: center;">' +
+				// 	`<p>Voucher Code: <b>${code}</b></p>` +
+				// 	'<button onclick="alertify.closeAll()">Close</button>' +
+				// 	'</div>';
+				alertify.notify(`Voucher Code: <b>${code}</b>`, 'success', 100);
+			});
 		</script>

@@ -35,15 +35,6 @@ router
     .get(donHangController.getSort)
 
 
-router
-    .route('/add')
-    .post(donHangController.getAddDonHang)
-
-router
-    .route('/huydon/:id')
-    .get(donHangController.changeStatusDonHang)
-
-
 
 
 

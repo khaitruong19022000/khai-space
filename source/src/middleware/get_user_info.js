@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
         if (req.user.role !== undefined) {
             let {data} = await CategoryAccountService.findIdAdmin(req.user.role)
 
-            if(data.name === 'admin'){
+            if(data.name === 'admin' || data.name === 'boss'){
                 userInfo.accept = "true" 
             }
         }

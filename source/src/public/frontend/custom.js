@@ -55,17 +55,33 @@ $('form[name="donhang"]').on( "submit", function( event ) {
     let city = $("#city option:selected").text()
     let district = $("#district option:selected").text()
     let ward = $("#ward option:selected").text()
+    let phuongthucthanhtoan = $("#phuongthucthanhtoan option:selected").text()
     if (city !== "Chọn tỉnh thành" && district !== "Chọn quận huyện" && ward !== "Chọn phường xã"){
-        flag = true
-        data.tinh = city
-        data.huyen = district
-        data.xa = ward
+        if(phuongthucthanhtoan !== 'Chọn hình thức thanh toán'){
+            flag = true
+            data.tinh = city
+            data.huyen = district
+            data.xa = ward
+        }
     }
     if(!flag){
-        $('span[class="form-message"]').text("Vui lòng điền đầy đủ thông tin địa chỉ nhận hàng") 
+        $('span[class="form-message"]').text("Vui lòng điền đầy đủ thông tin địa chỉ nhận hàng và phương thức thanh toán") 
     }
     if (flag) {
+        $('span[class="form-message"]').text("")
         $('input[name="diachi"]').val(JSON.stringify(data))
+        $('input[name="tongthanhtoan"]').val($('strong.TongThanhToan').text().replace(/\D/g, ''))
+        let ghichu = ($('textarea[name="ghichu"]').val());
+        let tongTienHang = $('span#totalProduct').text().replace(/\D/g, '')
+        let voucher      = $('span[class="voucher"]').text().replace(/\D/g, '')
+        let phiVanChuyen = $('span.Free_Delivery').text().replace(/\D/g, '')
+        let info = {
+            "ghichu": ghichu,
+            "tongTienHang": tongTienHang,
+            "voucher": voucher,
+            "phiVanChuyen": phiVanChuyen
+        }
+        $('input[name="info"]').val(JSON.stringify(info))
         localStorage.removeItem('cart')
         $('form[name="donhang"]')[0].submit();
     }
@@ -198,6 +214,8 @@ const showCart = (shoppingCart) => {
     shoppingCart.map(item => {
         let data = {}
         data.id = item.product.id
+        data.name = item.product.name
+        data.avatar = item.product.avatar
         data.sl = item.quantity
         data.price = item.product.price
         arrSanPham.push(JSON.stringify(data))
@@ -314,7 +332,7 @@ $('select#city').change(function() {
     var value = e.value;
     var text = e.options[e.selectedIndex].text;
 
-    link = "admin/phiVanChuyen/sotien/" + value
+    link = "/thanh-toan/phiVanChuyen/" + value
 
     $.get(link,
         function (data, textStatus, jqXHR) {
@@ -322,7 +340,7 @@ $('select#city').change(function() {
             if (success === true) {
                 phiVanChuyen = soTien
                 tongThanhToan()
-                let soTienVND = priceHelper(soTien)
+                let soTienVND = '+' + priceHelper(soTien)
                 $('span.Free_Delivery').html(soTienVND)
             }
         },
@@ -346,14 +364,19 @@ const tongThanhToan = () => {
 
 const getSanpham = (arrSanPham) => {
     $('input[name="sanpham"]').val(JSON.stringify(arrSanPham))
-    $('input[name="tongthanhtoan"]').val($('strong.TongThanhToan').text().replace(/\D/g, ''))
+    // $('input[name="tongthanhtoan"]').val($('strong.TongThanhToan').text().replace(/\D/g, ''))
+
+}
+
+const updateInfo = () => {
+
 }
 
 //------- Phương thức thanh toán ------------//
 $('select[name="phuongthucthanhtoan"]').change(function() {
     var chuyenkhoan = document.getElementById("chuyenkhoan");
     chuyenkhoan.innerHTML = ``
-    if (this.value === '2'){
+    if (this.value === 'Chuyển khoản ngân hàng'){
         chuyenkhoan.innerHTML += `<label class="nganhang">Ngân hàng BIDV chi nhánh Thủ Đức</label><br>
                                   <label class="nganhang">9704 0616 9304 2934</label><br>
                                   <label class="nganhang">Trương Quang Khải</label>`
@@ -363,7 +386,7 @@ $('select[name="phuongthucthanhtoan"]').change(function() {
 $('input[name="magiamgia"]').change(function() {
     let value = this.value
     if (value === '') value = '1'
-    link = "admin/maGiamGia/check/" + value
+    link = "/thanh-toan/maGiamGia/" + value
 
     $.get(link,
         function (data, textStatus, jqXHR) {
@@ -397,7 +420,7 @@ $('input[name="magiamgia"]').change(function() {
                                                                     <strong>Voucher từ Khai Space</strong>
                                                                 </td>
                                                                 <td class="cart-product-name">
-                                                                    <span class="voucher">${voucher}</span>
+                                                                    <span class="voucher">-${voucher}</span>
                                                                 </td>`
                     }                   
                 }

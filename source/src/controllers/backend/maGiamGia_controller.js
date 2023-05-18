@@ -163,23 +163,5 @@ module.exports = {
 
     },
 
-    checkDiscountCode: async (req, res, next) => {
-        let code              = paramsHelpers.getParam(req.params, 'code', '')
-        let { value ,success } = await maGiamGiaService.checkDiscountCode({code})
-        let ngayketthuc = 0
-        let ngaybatdau = 0
-
-        if(value !== null) {
-            ngayketthuc = (value.ngayketthuc.getTime()+(60*1000*60*60*24))/(60*1000*60*60*24)
-            ngaybatdau = value.ngaybatdau.getTime()/(60*1000*60*60*24)
-        }
-
-        res.send({ 
-            value ,
-            ngayketthuc,
-            ngaybatdau,
-            success 
-        })
-    }
 
 }

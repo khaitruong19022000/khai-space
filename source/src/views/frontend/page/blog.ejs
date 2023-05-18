@@ -84,4 +84,20 @@
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var socket = io.connect()
+        
+        socket.emit('router', 'blog')
+
+        socket.on('receiveDiscount', (code) => {
+            // var customContent = '<div style="text-align: center;">' +
+			// 		`<p>Voucher Code: <b>${code}</b></p>` +
+			// 		'<button onclick="alertify.closeAll()">Close</button>' +
+			// 		'</div>';
+			alertify.notify(`Voucher Code: <b>${code}</b>`, 'success', 100);
+		});
+    })
+</script>
 <!-- #content end -->

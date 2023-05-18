@@ -18,10 +18,6 @@ router
     .route('/change-status/:id/:status')
     .get(phiVanChuyenController.getStatus)
 
-
-router
-    .route('/sotien/:value')
-    .get(phiVanChuyenController.soTien)
     
 router
     .route('/multipleAction')

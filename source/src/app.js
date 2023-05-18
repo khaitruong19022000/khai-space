@@ -4,7 +4,6 @@ var path = require('path');
 require('dotenv').config()
 const expressLayouts = require("express-ejs-layouts");
 var logger = require('morgan');
-// const flash = require('express-flash-notification');
 var flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const passport = require('passport')
@@ -34,6 +33,8 @@ const systemConfig = require(`${__path_configs}system`);
 var indexRouter = require(`${__path_routes}index`);
 
 var app = express();
+
+
 db.connect();
 
 app.use(cookieParser());
@@ -49,7 +50,6 @@ require(`${__path_configs}passport`)(passport);
 app.use(passport.initialize())
 app.use(passport.session())
 
-// app.use(flash(app));
 app.use(flash());
 app.use(function(req, res, next) {
   res.locals.messages = req.flash();
@@ -72,7 +72,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Local variable
 app.locals.systemConfig       = systemConfig;
 app.locals.moment             = moment;
-// app.locals.datepicker         = datepicker;
 
 app.use('/', indexRouter);
 
