@@ -1,12 +1,13 @@
 
 const renderName = `frontend/page/`;
+const catchAsync = require(`${__path_utils}catchAsync`)
 
 module.exports = {
 
-    ListLogin: async (req , res , next) => {
-        if(req.isAuthenticated()) res.redirect('/')
-        res.render(`${renderName}login`,{
-        })
-    },
+    ListLogin: catchAsync(async (req, res, next) => {
+        if (req.isAuthenticated()) res.redirect('/')
+            res.render(`${renderName}login`, {
+            })
+    }),
 
 }

@@ -6,9 +6,10 @@ const nodemailerHelpers   = require(`${__path_helpers}nodemailer`)
 const ContactModel = require(`${__path_models}contact_model`)
 const HomeService = require(`${__path_services}frontend/home_service`);
 const SettingService = require(`${__path_services}backend/setting_service`);
+const catchAsync = require(`${__path_utils}catchAsync`)
 
 module.exports = {
-    ListHome: async (req , res , next) => {
+    ListHome: catchAsync( async (req , res , next) => {
         let { data_slider } =   await HomeService.ListSlider()
         let { data_product_special } =   await HomeService.listProductSpecial()
         let { data_product_show_home } =   await HomeService.listProductShowHome()
@@ -20,30 +21,30 @@ module.exports = {
             data_blog_show_home,
             data_slider
         })
-    },
+    }),
 
-    ListIntroduce: async (req , res , next) => {
+    ListIntroduce: catchAsync( async (req , res , next) => {
 
         res.render('frontend/page/introduce',{
 
         })
-    },
+    }),
 
-    ListMembership: async (req , res , next) => {
+    ListMembership: catchAsync( async (req , res , next) => {
 
         res.render('frontend/page/membership',{
 
         })
-    },
+    }),
 
-    ListPolicy: async (req , res , next) => {
+    ListPolicy: catchAsync( async (req , res , next) => {
 
         res.render('frontend/page/policy',{
 
         })
-    },
+    }),
 
-    Invoice: async (req , res , next) => {
+    Invoice: catchAsync( async (req , res , next) => {
         let condition = {}
         let action            = await paramsHelpers.getParam(req.params, 'action', '')
 
@@ -79,9 +80,9 @@ module.exports = {
         res.render('frontend/page/invoice',{
             donhang,
         }) 
-    },
+    }),
 
-    Contact: async (req , res , next) => {
+    Contact: catchAsync( async (req , res , next) => {
         req.body = JSON.parse(JSON.stringify(req.body))
         let item = Object.assign(req.body)
 
@@ -91,6 +92,6 @@ module.exports = {
             nodemailerHelpers.mail(dataSetting, req.body.email, data._id)
             res.send(data)
         })
-    },
+    }),
 
 }

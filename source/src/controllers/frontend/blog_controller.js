@@ -2,12 +2,12 @@
 const renderName = `frontend/page/`;
 
 const paramsHelpers = require(`${__path_helpers}params`)
-
 const BlogService = require(`${__path_services}frontend/blog_service`);
+const catchAsync  = require(`${__path_utils}catchAsync`)
 
 
 module.exports = {
-    ListBlog: async (req , res , next) => {
+    ListBlog: catchAsync( async (req , res , next) => {
         let condition = {}
 
         let pagination = {
@@ -39,9 +39,9 @@ module.exports = {
             slug,
             pageTitle
         })
-    },
+    }),
 
-    ListBlogDetail: async (req , res , next) => {
+    ListBlogDetail: catchAsync( async (req , res , next) => {
         let slug            = paramsHelpers.getParam(req.params, 'slug', '')
 
         let { data_blog_detail } =   await BlogService.ListBlogDetail({slug})
@@ -53,5 +53,5 @@ module.exports = {
             data_blog_detail,
             data_product_group
         })
-    },
+    }),
 }

@@ -3,9 +3,10 @@ const renderName = `frontend/page/`;
 
 const paramsHelpers = require(`${__path_helpers}params`)
 const ProductService = require(`${__path_services}frontend/product_service`);
+const catchAsync  = require(`${__path_utils}catchAsync`)
 
 module.exports = {
-    ListProduct: async (req , res , next) => {
+    ListProduct: catchAsync( async (req , res , next) => {
 
         let fillter  = paramsHelpers.getParam(req.params, 'filter', '')
 
@@ -56,9 +57,9 @@ module.exports = {
             search
         })
         
-    },
+    }),
 
-    ListProductDetail: async (req , res , next) => {
+    ListProductDetail: catchAsync( async (req , res , next) => {
         let id            = await paramsHelpers.getParam(req.params, 'id', '')
 
         let { data_product_detail } =   await ProductService.findOneProduct({id})
@@ -66,5 +67,5 @@ module.exports = {
         res.render(`${renderName}view_product`,{
             data: data_product_detail
         })
-    },
+    }),
 }

@@ -3,9 +3,10 @@ const renderName = `frontend/page/`;
 
 const paramsHelpers = require(`${__path_helpers}params`)
 const SlugService = require(`${__path_services}frontend/slug_service`);
+const catchAsync  = require(`${__path_utils}catchAsync`)
 
 module.exports = {
-    ListSlug: async (req , res , next) => {
+    ListSlug: catchAsync( async (req , res , next) => {
         let slug            = await paramsHelpers.getParam(req.params, 'slug', '')
         let search          = paramsHelpers.getParam(req.query, 'search', '') 
 
@@ -82,7 +83,14 @@ module.exports = {
                     slug,
                     search
                 })
+            } else {
+                res.render(`${renderName}product`, {
+                    product,
+                    pagination,
+                    slug,
+                    search
+                })
             }
         }
-    },
+    }),
 }

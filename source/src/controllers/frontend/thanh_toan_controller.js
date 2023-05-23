@@ -9,22 +9,23 @@ const notify  		             = require(`${__path_configs}notify`)
 const phiVanChuyenService        = require(`${__path_services}backend/phiVanChuyen_service`);
 const maGiamGiaService           = require(`${__path_services}backend/maGiamGia_service`);
 const donHangService             = require(`${__path_services}backend/donHang_service`);
+const catchAsync                 = require(`${__path_utils}catchAsync`)
 
 module.exports = {
 
-    CheckOut: async (req , res , next) => {
+    CheckOut: catchAsync( async (req , res , next) => {
         res.render(`${renderName}check_out`,{
         }) 
-    },
+    }),
 
-    checkPhiVanChuyen: async (req, res, next) => {
+    checkPhiVanChuyen: catchAsync( async (req, res, next) => {
         let value            = paramsHelpers.getParam(req.params, 'value', '')
         let { soTien, success } = await phiVanChuyenService.soTien({value})
 
         res.send({success, soTien})
-    },
+    }),
 
-    checkMaGiamGia: async (req, res, next) => {
+    checkMaGiamGia: catchAsync( async (req, res, next) => {
         let code               = paramsHelpers.getParam(req.params, 'code', '')
         let { value ,success } = await maGiamGiaService.checkDiscountCode({code})
         let ngayketthuc = 0
@@ -41,9 +42,9 @@ module.exports = {
             ngaybatdau,
             success 
         })
-    },
+    }),
 
-    getAddDonHang: async (req, res, next) => {
+    getAddDonHang: catchAsync( async (req, res, next) => {
         let item = {}
         item.idUserName = req.user._id
         item.diaChi     = req.body.diachi
@@ -63,15 +64,15 @@ module.exports = {
 
         req.flash('success', notify.SUCCESS_INVOICE)
         res.redirect(`/`)
-    },
+    }),
 
-    changeStatusDonHang:async (req, res, next) => {
+    changeStatusDonHang: catchAsync( async (req, res, next) => {
         let id            = paramsHelpers.getParam(req.params, 'id', '')
         let status        = 'da-huy'
 
         await donHangService.changeStatus({id, status})
         req.flash('success',"hủy thành công đơn hàng")
         res.redirect(`/`)
-    }
+    }),
 
 }

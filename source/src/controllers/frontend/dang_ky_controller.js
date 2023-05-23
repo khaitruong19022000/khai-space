@@ -4,15 +4,18 @@ const renderName = `frontend/page/`;
 const ramdomstring = require('randomstring')
 const nodemailer =  require('nodemailer');
 
+const catchAsync  = require(`${__path_utils}catchAsync`)
+
 
 module.exports = {
 
-    ListSignup: async (req , res , next) => {
-        res.render(`${renderName}signup`,{
-        })
-    },
+    ListSignup: catchAsync( async (req , res , next) => {
+            res.render(`${renderName}signup`,{
+            })
+        }
+    ),
 
-    ListCheckCode: async (req , res , next) => {
+    ListCheckCode: catchAsync( async (req , res , next) => {
         const { username, password, hoten, phone, email } = req.body
         let item = {}
 
@@ -53,6 +56,6 @@ module.exports = {
                 })
             }
         });
-    },
+    }),
 
 }
